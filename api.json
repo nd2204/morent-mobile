@@ -1677,6 +1677,12 @@
   "components": {
     "schemas": {
       "AuthResponse": {
+        "required": [
+          "accessToken",
+          "refreshToken",
+          "expiresAt",
+          "user"
+        ],
         "type": "object",
         "properties": {
           "accessToken": {
@@ -1695,6 +1701,21 @@
         }
       },
       "CarDetailDto": {
+        "required": [
+          "description",
+          "reviews",
+          "location",
+          "id",
+          "title",
+          "carModel",
+          "licensePlate",
+          "pricePerDay",
+          "currency",
+          "images",
+          "isAvailable",
+          "averageRating",
+          "reviewsCount"
+        ],
         "type": "object",
         "properties": {
           "description": {
@@ -1712,6 +1733,9 @@
           "id": {
             "type": "string",
             "format": "uuid"
+          },
+          "title": {
+            "type": "string"
           },
           "carModel": {
             "$ref": "#/components/schemas/CarModelDto"
@@ -1746,11 +1770,26 @@
         }
       },
       "CarDto": {
+        "required": [
+          "id",
+          "title",
+          "carModel",
+          "licensePlate",
+          "pricePerDay",
+          "currency",
+          "images",
+          "isAvailable",
+          "averageRating",
+          "reviewsCount"
+        ],
         "type": "object",
         "properties": {
           "id": {
             "type": "string",
             "format": "uuid"
+          },
+          "title": {
+            "type": "string"
           },
           "carModel": {
             "$ref": "#/components/schemas/CarModelDto"
@@ -1785,6 +1824,10 @@
         }
       },
       "CarImageDto": {
+        "required": [
+          "imageId",
+          "url"
+        ],
         "type": "object",
         "properties": {
           "imageId": {
@@ -1817,6 +1860,11 @@
         }
       },
       "CarLocationDto": {
+        "required": [
+          "city",
+          "address",
+          "country"
+        ],
         "type": "object",
         "properties": {
           "city": {
@@ -1831,6 +1879,16 @@
         }
       },
       "CarModelDto": {
+        "required": [
+          "brand",
+          "model",
+          "fuelType",
+          "gearBox",
+          "fuelTankCapacity",
+          "year",
+          "seatCapacity",
+          "type"
+        ],
         "type": "object",
         "properties": {
           "brand": {
@@ -1856,6 +1914,9 @@
           "seatCapacity": {
             "type": "integer",
             "format": "int32"
+          },
+          "type": {
+            "type": "string"
           }
         }
       },
@@ -1959,6 +2020,9 @@
         }
       },
       "RefreshTokenRequest": {
+        "required": [
+          "refreshToken"
+        ],
         "type": "object",
         "properties": {
           "refreshToken": {

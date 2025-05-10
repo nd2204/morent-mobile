@@ -28,24 +28,24 @@ export interface AuthResponse {
      * @type {string}
      * @memberof AuthResponse
      */
-    'accessToken'?: string;
+    'accessToken': string;
     /**
      * 
      * @type {string}
      * @memberof AuthResponse
      */
-    'refreshToken'?: string;
+    'refreshToken': string;
     /**
      * 
      * @type {string}
      * @memberof AuthResponse
      */
-    'expiresAt'?: string;
+    'expiresAt': string;
     /**
      * 
      * @type {UserDto}
      * @memberof AuthResponse
      */
-    'user'?: UserDto;
+    'user': UserDto;
 }
 

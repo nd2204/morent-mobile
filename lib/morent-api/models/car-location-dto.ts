@@ -25,18 +25,18 @@ export interface CarLocationDto {
      * @type {string}
      * @memberof CarLocationDto
      */
-    'city'?: string;
+    'city': string;
     /**
      * 
      * @type {string}
      * @memberof CarLocationDto
      */
-    'address'?: string;
+    'address': string;
     /**
      * 
      * @type {string}
      * @memberof CarLocationDto
      */
-    'country'?: string;
+    'country': string;
 }
 

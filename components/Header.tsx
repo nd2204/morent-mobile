@@ -16,6 +16,7 @@ import { useRouter } from 'expo-router';
 interface HeaderProps {
   showMenu?: boolean;
   showSearchBar?: boolean;
+  searchBarShouldRedirect?: boolean;
   onPressMenu?: () => void;
   onPressAvatar?: () => void;
   onSearch?: (query: string) => void;
@@ -26,6 +27,7 @@ interface HeaderProps {
 export function Header({
   showMenu = true,
   showSearchBar = false,
+  searchBarShouldRedirect = false,
   onPressMenu,
   onPressAvatar,
   onSearch,

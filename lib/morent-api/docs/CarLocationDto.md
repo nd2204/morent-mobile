@@ -5,9 +5,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**city** | **string** |  | [optional] [default to undefined]
-**address** | **string** |  | [optional] [default to undefined]
-**country** | **string** |  | [optional] [default to undefined]
+**city** | **string** |  | [default to undefined]
+**address** | **string** |  | [default to undefined]
+**country** | **string** |  | [default to undefined]
 
 ## Example
 

@@ -47,10 +47,10 @@ function RentalSection({
   onTimeChange
 }: RentalSectionProps) {
   return (
-    <Card className="flex-1 p-4 bg-card">
+    <Card className="flex flex-1 p-4 bg-card">
       <Text className="text-lg font-semibold mb-4">{title}</Text>
       
-      <View className="space-y-4">
+      <View className="gap-y-4">
         <Select onValueChange={onLocationChange}>
           <SelectTrigger>
             <Text className="text-muted-foreground">Select City</Text>

@@ -10,6 +10,8 @@ import { NAV_THEME } from '~/lib/constants';
 import { useColorScheme } from '~/lib/useColorScheme';
 import { PortalHost } from '@rn-primitives/portal';
 import { setAndroidNavigationBar } from '~/lib/android-navigation-bar';
+import { useAuth } from '~/hooks/useAuth';
+import { AuthProvider } from '~/services/AuthService';
 
 const LIGHT_THEME: Theme = {
   ...DefaultTheme,
@@ -50,17 +52,19 @@ export default function RootLayout() {
 
   return (
     <SafeAreaProvider>
-      <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
-        <StatusBar style={isDarkColorScheme ? 'light' : 'dark'} />
-        <Stack screenOptions={{
-          headerShown: false,
-        }}>
-          <Stack.Screen name="index" />
-          <Stack.Screen name="payment" />
-          <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-        </Stack>
-        <PortalHost />
-      </ThemeProvider>
+      <AuthProvider>
+        <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
+          <StatusBar style={isDarkColorScheme ? 'light' : 'dark'} />
+          <Stack screenOptions={{
+            headerShown: false,
+          }}>
+            {/* <Stack.Screen name="index" />
+            <Stack.Screen name="payment" /> */}
+            <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+          </Stack>
+          <PortalHost />
+        </ThemeProvider>
+      </AuthProvider>
     </SafeAreaProvider>
   );
 }

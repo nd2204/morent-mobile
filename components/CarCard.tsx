@@ -8,36 +8,23 @@ import { cn } from '~/lib/utils';
 import { iconWithClassName } from '~/lib/icons/iconWithClassName';
 import { useRouter } from 'expo-router';
 import { FavoriteButton } from './FavoriteButton';
+import { CarDto } from '~/lib/morent-api';
 
 // Register icons with NativeWind
 [Fuel, GaugeCircle, Users].forEach(iconWithClassName);
 
 export interface CarCardProps {
-  id: string;
-  carName: string;
-  carType: string;
-  fuelCapacity: string | number;
-  transmission: string;
-  seats: string | number;
-  pricePerDay: number;
-  imageUrl: string | ImageSourcePropType;
-  isFavorite: boolean;
+  car: CarDto;
   layout?: 'vertical' | 'horizontal';
+  isFavorite: boolean;
   onPressRent?: () => void;
   onToggleFavorite?: () => void;
 }
 
 export function CarCard({
-  id,
-  carName,
-  carType,
-  fuelCapacity,
-  transmission,
-  seats,
-  pricePerDay,
-  imageUrl,
-  isFavorite,
+  car,
   layout = 'vertical',
+  isFavorite,
   onPressRent,
   onToggleFavorite,
 }: CarCardProps) {
@@ -45,15 +32,15 @@ export function CarCard({
   const isHorizontal = layout === 'horizontal';
 
   const handlePressRent = () => {
-    router.push(`/${id}`);
+    router.push(`/${car.id}`);
   };
 
   const renderTitle = () => {
     return (
       <View className="flex-row items-start justify-between">
         <View>
-          <Text className="text-xl font-semibold">{carName}</Text>
-          <Text className="text-md text-muted-foreground mt-1">{carType}</Text>
+          <Text className="text-xl font-semibold">{car.title}</Text>
+          <Text className="text-md text-muted-foreground mt-1">{car.carModel.type}</Text>
         </View>
         <FavoriteButton 
           isFavorite={isFavorite} 
@@ -64,6 +51,7 @@ export function CarCard({
   }
 
   const renderImage = () => {
+    const imageUrl = car.images[0]?.url;
     return (
       <View className={cn(
         isHorizontal ? 'w-[140px] h-full flex-1 px-4' : 'h-[160px] w-full'
@@ -72,7 +60,7 @@ export function CarCard({
           source={typeof imageUrl === 'string' ? { uri: imageUrl } : imageUrl}
           className="w-full h-full"
           resizeMode="contain"
-          accessibilityLabel={`Image of ${carName}`}
+          accessibilityLabel={`Image of ${car.title}`}
         />
       </View>
     );
@@ -86,15 +74,15 @@ export function CarCard({
       )}>
         <View className="flex-row items-center gap-2">
           <Fuel size={20} className="text-muted-foreground" />
-          <Text className="text-md text-muted-foreground">{fuelCapacity}</Text>
+          <Text className="text-md text-muted-foreground">{car.carModel.fuelTankCapacity}</Text>
         </View>
         <View className="flex-row items-center gap-2">
           <GaugeCircle size={20} className="text-muted-foreground" />
-          <Text className="text-md text-muted-foreground">{transmission}</Text>
+          <Text className="text-md text-muted-foreground">{car.carModel.gearBox}</Text>
         </View>
         <View className="flex-row items-center gap-2">
           <Users size={20} className="text-muted-foreground" />
-          <Text className="text-md text-muted-foreground">{seats}</Text>
+          <Text className="text-md text-muted-foreground">{car.carModel.seatCapacity}</Text>
         </View>
       </View>
     )
@@ -107,7 +95,7 @@ export function CarCard({
         ? 'min-h-[180px]'
         : 'min-w-[280px]'
     )}>
-      <Pressable onPress={() => router.push(`/${id}`)}>
+      <Pressable onPress={() => router.push(`/${car.id}`)}>
         {renderTitle()}
 
         {/*Render image and feature on the same line*/}
@@ -124,7 +112,7 @@ export function CarCard({
         <View className={cn('flex-row items-center justify-between mt-5')}>
           <View className="flex-row items-baseline">
             <Text className="text-2xl font-bold" numberOfLines={1}>
-              ${pricePerDay}/
+              ${car.pricePerDay}/
             </Text>
             <Text className="text-md text-muted-foreground" >day</Text>
           </View>

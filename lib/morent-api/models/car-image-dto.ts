@@ -25,13 +25,13 @@ export interface CarImageDto {
      * @type {string}
      * @memberof CarImageDto
      */
-    'imageId'?: string;
+    'imageId': string;
     /**
      * 
      * @type {string}
      * @memberof CarImageDto
      */
-    'url'?: string;
+    'url': string;
     /**
      * 
      * @type {boolean}

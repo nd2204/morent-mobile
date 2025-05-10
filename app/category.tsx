@@ -1,11 +1,15 @@
 import * as React from 'react';
-import { ScrollView, View } from 'react-native';
+import { ActivityIndicator, ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Header } from '~/components/Header';
 import { CarList } from '~/components/CarList';
 import { Select, SelectTrigger, SelectContent, SelectItem, type Option } from '~/components/ui/select';
 import { Text } from '~/components/ui/text';
 import { useRouter } from 'expo-router';
+import { useCars, UseCarsOptions } from '~/hooks/useCars';
+import { useColorScheme } from '~/lib/useColorScheme';
+import { Loading } from '~/components/Loading';
+import { CarCardProps } from '~/components/CarCard';
 
 interface OptionType {
   value: string;
@@ -24,61 +28,10 @@ const CATEGORIES: OptionType[] = [
 ];
 
 const SORT_OPTIONS: OptionType[] = [
-  { value: 'price-asc', label: 'Price: Low to High' },
-  { value: 'price-desc', label: 'Price: High to Low' },
-];
-
-const ALL_CARS = [
-  {
-    id: '1',
-    carName: "Koenigsegg",
-    carType: "Sport",
-    fuelCapacity: "90L",
-    transmission: "Auto",
-    seats: "2 People",
-    pricePerDay: 99,
-    imageUrl: require('~/uploads/koenigsegg.png'),
-  },
-  {
-    id: '2',
-    carName: "Nissan GT-R",
-    carType: "Sport",
-    fuelCapacity: "80L",
-    transmission: "Auto",
-    seats: "2 People",
-    pricePerDay: 80,
-    imageUrl: require('~/uploads/nissangtr.png'),
-  },
-  {
-    id: '3',
-    carName: "All New Rush",
-    carType: "SUV",
-    fuelCapacity: "70L",
-    transmission: "Manual",
-    seats: "6 People",
-    pricePerDay: 72,
-    imageUrl: require('~/uploads/allnewrush.png'),
-  },
-  {
-    id: '4',
-    carName: "CR-V",
-    carType: "SUV",
-    fuelCapacity: "80L",
-    transmission: "Manual",
-    seats: "6 People",
-    pricePerDay: 80,
-    imageUrl: require('~/uploads/crv.png'),
-  },
-  {
-    id: '5',
-    carName: "All New Terios",
-    carType: "SUV",
-    fuelCapacity: "90L",
-    transmission: "Manual",
-    seats: "6 People",
-    pricePerDay: 75,
-    imageUrl: require('~/uploads/allnewterios.png'),
-  },
+  { value: 'price_asc', label: 'Price: Low to High' },
+  { value: 'price_desc', label: 'Price: High to Low' },
+  { value: 'year_desc', label: 'Most recent' },
+  { value: 'year_asc', label: 'Oldest' },
 ];
 
 export default function CategoryScreen() {
@@ -87,35 +40,39 @@ export default function CategoryScreen() {
   const [favorites, setFavorites] = React.useState<string[]>([]);
   const [sortBy, setSortBy] = React.useState<OptionType>(SORT_OPTIONS[0]);
   const [searchQuery, setSearchQuery] = React.useState('');
+  const { cars, loading, setOptions } = useCars();
+
+  if (loading) return <Loading/>;
+
+  if (!cars || cars.length < 1) {
+    return (
+      <SafeAreaView className="flex-1 bg-background">
+        <View className="flex-1 items-center justify-center">
+          <Text>No available cars</Text>
+        </View>
+      </SafeAreaView>
+    );
+  }
+  
 
   const filteredCars = React.useMemo(() => {
-    let cars = [...ALL_CARS];
+    let filteredCars = [...cars];
     
+    let options: UseCarsOptions = {};
     // Filter by search query
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
-      cars = cars.filter(car => 
-        car.carName.toLowerCase().includes(query) ||
-        car.carType.toLowerCase().includes(query)
-      );
+      options.search = query;
     }
     
     // Filter by category
     if (selectedCategory.value !== 'all') {
-      cars = cars.filter(car => 
-        car.carType.toLowerCase() === selectedCategory.value.toLowerCase()
-      );
+      options.type = selectedCategory.value;
     }
 
-    // Sort cars
-    cars.sort((a, b) => {
-      if (sortBy.value === 'price-desc') {
-        return b.pricePerDay - a.pricePerDay;
-      }
-      return a.pricePerDay - b.pricePerDay;
-    });
+    options.sort = sortBy.value;
 
-    return cars;
+    setOptions(options);
   }, [selectedCategory.value, sortBy.value, searchQuery]);
 
   const handleCategoryChange = React.useCallback((value: any) => {
@@ -184,12 +141,12 @@ export default function CategoryScreen() {
                 </SelectItem>
               ))}
             </SelectContent>
-          </Select>
+          </Select>r
         </View>
       </View>
 
       <CarList
-        cars={filteredCars}
+        cars={cars}
         layout="vertical"
         favorites={favorites}
         onToggleFavorite={toggleFavorite}

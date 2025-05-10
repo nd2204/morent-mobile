@@ -5,8 +5,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**imageId** | **string** |  | [optional] [default to undefined]
-**url** | **string** |  | [optional] [default to undefined]
+**imageId** | **string** |  | [default to undefined]
+**url** | **string** |  | [default to undefined]
 **isPrimary** | **boolean** |  | [optional] [default to undefined]
 **displayOrder** | **number** |  | [optional] [default to undefined]
 

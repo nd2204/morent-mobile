@@ -5,18 +5,19 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**description** | **string** |  | [optional] [default to undefined]
-**reviews** | [**Array&lt;ReviewDto&gt;**](ReviewDto.md) |  | [optional] [default to undefined]
-**location** | [**CarLocationDto**](CarLocationDto.md) |  | [optional] [default to undefined]
-**id** | **string** |  | [optional] [default to undefined]
-**carModel** | [**CarModelDto**](CarModelDto.md) |  | [optional] [default to undefined]
-**licensePlate** | **string** |  | [optional] [default to undefined]
-**pricePerDay** | **number** |  | [optional] [default to undefined]
-**currency** | **string** |  | [optional] [default to undefined]
-**images** | [**Array&lt;CarImageDto&gt;**](CarImageDto.md) |  | [optional] [default to undefined]
-**isAvailable** | **boolean** |  | [optional] [default to undefined]
-**averageRating** | **number** |  | [optional] [default to undefined]
-**reviewsCount** | **number** |  | [optional] [default to undefined]
+**description** | **string** |  | [default to undefined]
+**reviews** | [**Array&lt;ReviewDto&gt;**](ReviewDto.md) |  | [default to undefined]
+**location** | [**CarLocationDto**](CarLocationDto.md) |  | [default to undefined]
+**id** | **string** |  | [default to undefined]
+**title** | **string** |  | [default to undefined]
+**carModel** | [**CarModelDto**](CarModelDto.md) |  | [default to undefined]
+**licensePlate** | **string** |  | [default to undefined]
+**pricePerDay** | **number** |  | [default to undefined]
+**currency** | **string** |  | [default to undefined]
+**images** | [**Array&lt;CarImageDto&gt;**](CarImageDto.md) |  | [default to undefined]
+**isAvailable** | **boolean** |  | [default to undefined]
+**averageRating** | **number** |  | [default to undefined]
+**reviewsCount** | **number** |  | [default to undefined]
 
 ## Example
 
@@ -28,6 +29,7 @@ const instance: CarDetailDto = {
     reviews,
     location,
     id,
+    title,
     carModel,
     licensePlate,
     pricePerDay,

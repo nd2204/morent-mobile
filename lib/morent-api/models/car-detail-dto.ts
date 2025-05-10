@@ -37,72 +37,78 @@ export interface CarDetailDto {
      * @type {string}
      * @memberof CarDetailDto
      */
-    'description'?: string;
+    'description': string;
     /**
      * 
      * @type {Array<ReviewDto>}
      * @memberof CarDetailDto
      */
-    'reviews'?: Array<ReviewDto>;
+    'reviews': Array<ReviewDto>;
     /**
      * 
      * @type {CarLocationDto}
      * @memberof CarDetailDto
      */
-    'location'?: CarLocationDto;
+    'location': CarLocationDto;
     /**
      * 
      * @type {string}
      * @memberof CarDetailDto
      */
-    'id'?: string;
+    'id': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CarDetailDto
+     */
+    'title': string;
     /**
      * 
      * @type {CarModelDto}
      * @memberof CarDetailDto
      */
-    'carModel'?: CarModelDto;
+    'carModel': CarModelDto;
     /**
      * 
      * @type {string}
      * @memberof CarDetailDto
      */
-    'licensePlate'?: string;
+    'licensePlate': string;
     /**
      * 
      * @type {number}
      * @memberof CarDetailDto
      */
-    'pricePerDay'?: number;
+    'pricePerDay': number;
     /**
      * 
      * @type {string}
      * @memberof CarDetailDto
      */
-    'currency'?: string;
+    'currency': string;
     /**
      * 
      * @type {Array<CarImageDto>}
      * @memberof CarDetailDto
      */
-    'images'?: Array<CarImageDto>;
+    'images': Array<CarImageDto>;
     /**
      * 
      * @type {boolean}
      * @memberof CarDetailDto
      */
-    'isAvailable'?: boolean;
+    'isAvailable': boolean;
     /**
      * 
      * @type {number}
      * @memberof CarDetailDto
      */
-    'averageRating'?: number;
+    'averageRating': number;
     /**
      * 
      * @type {number}
      * @memberof CarDetailDto
      */
-    'reviewsCount'?: number;
+    'reviewsCount': number;
 }
 

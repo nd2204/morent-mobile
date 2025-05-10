@@ -5,7 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**refreshToken** | **string** |  | [optional] [default to undefined]
+**refreshToken** | **string** |  | [default to undefined]
 
 ## Example
 

@@ -61,7 +61,7 @@ export function ReviewsList({ reviews, className }: ReviewsListProps) {
           <Text className="font-semibold">{averageRating}</Text>
         </View>
       </View>
-      <View className="space-y-4 gap-4">
+      <View className="gap-4">
         {reviews.map((review, index) => (
           <Review key={index} {...review} />
         ))}

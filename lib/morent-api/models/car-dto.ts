@@ -31,54 +31,60 @@ export interface CarDto {
      * @type {string}
      * @memberof CarDto
      */
-    'id'?: string;
+    'id': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof CarDto
+     */
+    'title': string;
     /**
      * 
      * @type {CarModelDto}
      * @memberof CarDto
      */
-    'carModel'?: CarModelDto;
+    'carModel': CarModelDto;
     /**
      * 
      * @type {string}
      * @memberof CarDto
      */
-    'licensePlate'?: string;
+    'licensePlate': string;
     /**
      * 
      * @type {number}
      * @memberof CarDto
      */
-    'pricePerDay'?: number;
+    'pricePerDay': number;
     /**
      * 
      * @type {string}
      * @memberof CarDto
      */
-    'currency'?: string;
+    'currency': string;
     /**
      * 
      * @type {Array<CarImageDto>}
      * @memberof CarDto
      */
-    'images'?: Array<CarImageDto>;
+    'images': Array<CarImageDto>;
     /**
      * 
      * @type {boolean}
      * @memberof CarDto
      */
-    'isAvailable'?: boolean;
+    'isAvailable': boolean;
     /**
      * 
      * @type {number}
      * @memberof CarDto
      */
-    'averageRating'?: number;
+    'averageRating': number;
     /**
      * 
      * @type {number}
      * @memberof CarDto
      */
-    'reviewsCount'?: number;
+    'reviewsCount': number;
 }
 

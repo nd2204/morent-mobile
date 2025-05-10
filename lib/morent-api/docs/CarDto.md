@@ -5,15 +5,16 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **string** |  | [optional] [default to undefined]
-**carModel** | [**CarModelDto**](CarModelDto.md) |  | [optional] [default to undefined]
-**licensePlate** | **string** |  | [optional] [default to undefined]
-**pricePerDay** | **number** |  | [optional] [default to undefined]
-**currency** | **string** |  | [optional] [default to undefined]
-**images** | [**Array&lt;CarImageDto&gt;**](CarImageDto.md) |  | [optional] [default to undefined]
-**isAvailable** | **boolean** |  | [optional] [default to undefined]
-**averageRating** | **number** |  | [optional] [default to undefined]
-**reviewsCount** | **number** |  | [optional] [default to undefined]
+**id** | **string** |  | [default to undefined]
+**title** | **string** |  | [default to undefined]
+**carModel** | [**CarModelDto**](CarModelDto.md) |  | [default to undefined]
+**licensePlate** | **string** |  | [default to undefined]
+**pricePerDay** | **number** |  | [default to undefined]
+**currency** | **string** |  | [default to undefined]
+**images** | [**Array&lt;CarImageDto&gt;**](CarImageDto.md) |  | [default to undefined]
+**isAvailable** | **boolean** |  | [default to undefined]
+**averageRating** | **number** |  | [default to undefined]
+**reviewsCount** | **number** |  | [default to undefined]
 
 ## Example
 
@@ -22,6 +23,7 @@ import { CarDto } from './api';
 
 const instance: CarDto = {
     id,
+    title,
     carModel,
     licensePlate,
     pricePerDay,

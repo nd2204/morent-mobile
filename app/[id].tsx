@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, ScrollView, Image } from 'react-native';
+import { View, ScrollView, Image, ActivityIndicator } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Text } from '~/components/ui/text';
@@ -9,125 +9,25 @@ import { CarList } from '~/components/CarList';
 import { ReviewsList } from '~/components/Review';
 import { ChevronLeft, Fuel, GaugeCircle, Users } from 'lucide-react-native';
 import { iconWithClassName } from '~/lib/icons/iconWithClassName';
+import { useCars } from '~/hooks/useCars';
+import { CarDetailDto, CarDto } from '~/lib/morent-api';
+import { useCarDetail } from '~/hooks/useCarDetail';
+import { useColorScheme } from '~/lib/useColorScheme';
 
 // Register icons with NativeWind
 [ChevronLeft, Fuel, GaugeCircle, Users].forEach(iconWithClassName);
 
-const CARS_DATA = {
-  '1': {
-    id: '1',
-    carName: "Koenigsegg",
-    carType: "Sport",
-    fuelCapacity: "90L",
-    transmission: "Auto",
-    seats: "2 People",
-    pricePerDay: 99,
-    imageUrl: require('~/uploads/koenigsegg.png'),
-    description: "The Koenigsegg is the epitome of luxury sports cars, offering unparalleled performance and style. With its sleek design and powerful engine, it's perfect for those who demand the very best in automotive excellence."
-  },
-  '2': {
-    id: '2',
-    carName: "Nissan GT-R",
-    carType: "Sport",
-    fuelCapacity: "80L",
-    transmission: "Auto",
-    seats: "2 People",
-    pricePerDay: 80,
-    imageUrl: require('~/uploads/nissangtr.png'),
-    description: "The Nissan GT-R, also known as Godzilla, represents the perfect blend of Japanese engineering and supercar performance. Its advanced all-wheel-drive system and twin-turbo V6 engine deliver exceptional handling and power."
-  },
-  '3': {
-    id: '3',
-    carName: "All New Rush",
-    carType: "SUV",
-    fuelCapacity: "70L",
-    transmission: "Manual",
-    seats: "6 People",
-    pricePerDay: 72,
-    imageUrl: require('~/uploads/allnewrush.png'),
-    description: "The All New Rush combines versatility with style, perfect for family adventures or urban exploration. Its elevated driving position and spacious interior make every journey comfortable and enjoyable."
-  },
-  '4': {
-    id: '4',
-    carName: "CR-V",
-    carType: "SUV",
-    fuelCapacity: "80L",
-    transmission: "Manual",
-    seats: "6 People",
-    pricePerDay: 80,
-    imageUrl: require('~/uploads/crv.png'),
-    description: "The CR-V sets the standard for modern SUVs with its perfect balance of comfort, style, and practicality. Advanced safety features and ample cargo space make it ideal for both daily commutes and long trips."
-  },
-  '5': {
-    id: '5',
-    carName: "All New Terios",
-    carType: "SUV",
-    fuelCapacity: "90L",
-    transmission: "Manual",
-    seats: "6 People",
-    pricePerDay: 75,
-    imageUrl: require('~/uploads/allnewterios.png'),
-    description: "The All New Terios brings adventure to every drive with its robust design and capable performance. Its compact size makes it perfect for both city navigation and off-road exploration."
-  },
-};
-
-const RECOMMENDED_CARS = [
-  {
-    id: '4',
-    carName: "CR-V",
-    carType: "SUV",
-    fuelCapacity: "80L",
-    transmission: "Manual",
-    seats: "6 People",
-    pricePerDay: 80,
-    imageUrl: require('~/uploads/crv.png'),
-  },
-  {
-    id: '5',
-    carName: "All New Terios",
-    carType: "SUV",
-    fuelCapacity: "90L",
-    transmission: "Manual",
-    seats: "6 People",
-    pricePerDay: 75,
-    imageUrl: require('~/uploads/allnewterios.png'),
-  },
-];
-
-const RECENT_CARS = [
-  {
-    id: '2',
-    carName: "Nissan GT-R",
-    carType: "Sport",
-    fuelCapacity: "80L",
-    transmission: "Auto",
-    seats: "2 People",
-    pricePerDay: 80,
-    imageUrl: require('~/uploads/nissangtr.png'),
-  },
-  {
-    id: '3',
-    carName: "All New Rush",
-    carType: "SUV",
-    fuelCapacity: "70L",
-    transmission: "Manual",
-    seats: "6 People",
-    pricePerDay: 72,
-    imageUrl: require('~/uploads/allnewrush.png'),
-  },
-];
-
 const MOCK_REVIEWS = {
   '1': [
     {
-      rating: 4.8,
+      rating: 5,
       comment: "Amazing car! The performance is unmatched and the service was excellent. Would definitely rent again.",
       userName: "Alex Thompson",
       userImage: "https://i.pravatar.cc/150?u=alex",
       date: "March 15, 2024"
     },
     {
-      rating: 5.0,
+      rating: 5,
       comment: "Best supercar experience ever! The Koenigsegg exceeded all my expectations.",
       userName: "Sarah Chen",
       userImage: "https://i.pravatar.cc/150?u=sarah",
@@ -136,7 +36,7 @@ const MOCK_REVIEWS = {
   ],
   '2': [
     {
-      rating: 4.5,
+      rating: 4,
       comment: "The GT-R is a beast! Great handling and power. Rental process was smooth.",
       userName: "Mike Johnson",
       userImage: "https://i.pravatar.cc/150?u=mike",
@@ -145,7 +45,7 @@ const MOCK_REVIEWS = {
   ],
   '3': [
     {
-      rating: 4.7,
+      rating: 4,
       comment: "Perfect family SUV. Spacious and comfortable for long trips.",
       userName: "Emily Parker",
       userImage: "https://i.pravatar.cc/150?u=emily",
@@ -154,7 +54,7 @@ const MOCK_REVIEWS = {
   ],
   '4': [
     {
-      rating: 4.6,
+      rating: 4,
       comment: "Very reliable SUV with great features. Fuel efficient too!",
       userName: "David Wilson",
       userImage: "https://i.pravatar.cc/150?u=david",
@@ -163,7 +63,7 @@ const MOCK_REVIEWS = {
   ],
   '5': [
     {
-      rating: 4.4,
+      rating: 4,
       comment: "Good car for city driving. Compact yet spacious inside.",
       userName: "Lisa Anderson",
       userImage: "https://i.pravatar.cc/150?u=lisa",
@@ -175,14 +75,26 @@ const MOCK_REVIEWS = {
 export default function DetailScreen() {
   const { id } = useLocalSearchParams();
   const router = useRouter();
-  const car = CARS_DATA[id as keyof typeof CARS_DATA];
+  const { car, loading } = useCarDetail(id as string);
+  const { colorScheme } = useColorScheme();
   const [favorites, setFavorites] = React.useState<string[]>([]);
+  const model = car?.carModel;
 
   const toggleFavorite = (id: string) => {
     setFavorites(prev => 
       prev.includes(id) ? prev.filter(fid => fid !== id) : [...prev, id]
     );
   };
+  
+  console.log(JSON.stringify(car, null, 2))
+
+  if (loading) {
+    return (
+      <SafeAreaView className="flex-1 justify-center align-center bg-background">
+        <ActivityIndicator className="fg-background" size="large" color={colorScheme == "dark" ? "#fff" : "#000"} />
+      </SafeAreaView>
+    );
+  }
 
   if (!car) {
     return (
@@ -214,10 +126,10 @@ export default function DetailScreen() {
         <View className="p-4">
           <Card className="overflow-hidden bg-card p-6">
             <Image
-              source={car.imageUrl}
+              source={{uri: car.images[0].url}}
               className="w-full h-48"
               resizeMode="contain"
-              accessibilityLabel={`Image of ${car.carName}`}
+              accessibilityLabel={`Image of ${car.title}`}
             />
           </Card>
         </View>
@@ -226,8 +138,8 @@ export default function DetailScreen() {
         <View className="px-4">
           <View className="flex-row justify-between items-start mb-4">
             <View>
-              <Text className="text-2xl font-bold">{car.carName}</Text>
-              <Text className="text-lg text-muted-foreground">{car.carType}</Text>
+              <Text className="text-2xl font-bold">{car.title}</Text>
+              <Text className="text-lg text-muted-foreground">{car.carModel.type}</Text>
             </View>
             <View className="items-end">
               <Text className="text-2xl font-bold">${car.pricePerDay}</Text>
@@ -244,15 +156,15 @@ export default function DetailScreen() {
             <View className="flex-row justify-between">
               <View className="items-center">
                 <Fuel size={24} className="text-muted-foreground mb-2" />
-                <Text className="text-muted-foreground">{car.fuelCapacity}</Text>
+                <Text className="text-muted-foreground">{model?.fuelTankCapacity}</Text>
               </View>
               <View className="items-center">
                 <GaugeCircle size={24} className="text-muted-foreground mb-2" />
-                <Text className="text-muted-foreground">{car.transmission}</Text>
+                <Text className="text-muted-foreground">{model?.gearBox}</Text>
               </View>
               <View className="items-center">
                 <Users size={24} className="text-muted-foreground mb-2" />
-                <Text className="text-muted-foreground">{car.seats}</Text>
+                <Text className="text-muted-foreground">{model?.seatCapacity}</Text>
               </View>
             </View>
           </Card>
@@ -263,7 +175,7 @@ export default function DetailScreen() {
             className="mt-6"
           />
 
-          <CarList
+          {/* <CarList
             title="Recent Cars"
             cars={RECENT_CARS}
             layout="horizontal"
@@ -279,7 +191,7 @@ export default function DetailScreen() {
             favorites={favorites}
             onToggleFavorite={toggleFavorite}
             containerClassName="mt-6 mb-4"
-          />
+          /> */}
         </View>
       </ScrollView>
 

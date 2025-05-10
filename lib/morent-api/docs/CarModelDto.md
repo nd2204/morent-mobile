@@ -5,13 +5,14 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**brand** | **string** |  | [optional] [default to undefined]
-**model** | **string** |  | [optional] [default to undefined]
-**fuelType** | **string** |  | [optional] [default to undefined]
-**gearBox** | **string** |  | [optional] [default to undefined]
-**fuelTankCapacity** | **number** |  | [optional] [default to undefined]
-**year** | **number** |  | [optional] [default to undefined]
-**seatCapacity** | **number** |  | [optional] [default to undefined]
+**brand** | **string** |  | [default to undefined]
+**model** | **string** |  | [default to undefined]
+**fuelType** | **string** |  | [default to undefined]
+**gearBox** | **string** |  | [default to undefined]
+**fuelTankCapacity** | **number** |  | [default to undefined]
+**year** | **number** |  | [default to undefined]
+**seatCapacity** | **number** |  | [default to undefined]
+**type** | **string** |  | [default to undefined]
 
 ## Example
 
@@ -26,6 +27,7 @@ const instance: CarModelDto = {
     fuelTankCapacity,
     year,
     seatCapacity,
+    type,
 };
 ```
 

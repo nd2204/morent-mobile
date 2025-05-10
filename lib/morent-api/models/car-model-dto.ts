@@ -25,42 +25,48 @@ export interface CarModelDto {
      * @type {string}
      * @memberof CarModelDto
      */
-    'brand'?: string;
+    'brand': string;
     /**
      * 
      * @type {string}
      * @memberof CarModelDto
      */
-    'model'?: string;
+    'model': string;
     /**
      * 
      * @type {string}
      * @memberof CarModelDto
      */
-    'fuelType'?: string;
+    'fuelType': string;
     /**
      * 
      * @type {string}
      * @memberof CarModelDto
      */
-    'gearBox'?: string;
+    'gearBox': string;
     /**
      * 
      * @type {number}
      * @memberof CarModelDto
      */
-    'fuelTankCapacity'?: number;
+    'fuelTankCapacity': number;
     /**
      * 
      * @type {number}
      * @memberof CarModelDto
      */
-    'year'?: number;
+    'year': number;
     /**
      * 
      * @type {number}
      * @memberof CarModelDto
      */
-    'seatCapacity'?: number;
+    'seatCapacity': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CarModelDto
+     */
+    'type': string;
 }
 

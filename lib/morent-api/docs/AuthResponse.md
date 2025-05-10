@@ -5,10 +5,10 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**accessToken** | **string** |  | [optional] [default to undefined]
-**refreshToken** | **string** |  | [optional] [default to undefined]
-**expiresAt** | **string** |  | [optional] [default to undefined]
-**user** | [**UserDto**](UserDto.md) |  | [optional] [default to undefined]
+**accessToken** | **string** |  | [default to undefined]
+**refreshToken** | **string** |  | [default to undefined]
+**expiresAt** | **string** |  | [default to undefined]
+**user** | [**UserDto**](UserDto.md) |  | [default to undefined]
 
 ## Example
 

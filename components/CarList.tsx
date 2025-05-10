@@ -4,10 +4,11 @@ import { Text } from '~/components/ui/text';
 import { Link } from 'expo-router';
 import { CarCard, CarCardProps } from './CarCard';
 import { cn } from '~/lib/utils';
+import { CarDto } from '~/lib/morent-api';
 
 interface CarListProps {
   title?: string;
-  cars: Omit<CarCardProps, 'isFavorite' | 'onToggleFavorite'>[];
+  cars: CarDto[];
   layout?: 'vertical' | 'horizontal';
   favorites: string[];
   onToggleFavorite: (id: string) => void;
@@ -61,7 +62,7 @@ export function CarList({
         renderItem={({ item }) => (
           <View className={isHorizontal ? "" : "py-2"}>
             <CarCard
-              {...item}
+              car={item}
               layout={isHorizontal ? "vertical" : "horizontal"}
               isFavorite={favorites.includes(item.id)}
               onToggleFavorite={() => onToggleFavorite(item.id)}
