@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { View, ScrollView, Image, ActivityIndicator } from 'react-native';
-import { useLocalSearchParams, useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Text } from '~/components/ui/text';
 import { Button } from '~/components/ui/button';
@@ -13,69 +12,23 @@ import { useCars } from '~/hooks/useCars';
 import { CarDetailDto, CarDto } from '~/lib/morent-api';
 import { useCarDetail } from '~/hooks/useCarDetail';
 import { useColorScheme } from '~/lib/useColorScheme';
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
+import { RootStackParamList } from '~/types/RootStackParamList';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { TabParamList } from '~/types/TabParamList';
+import { useAuth } from '~/hooks/useAuth';
+import { NavigationProps } from '~/types/NavigationProps';
+
 
 // Register icons with NativeWind
 [ChevronLeft, Fuel, GaugeCircle, Users].forEach(iconWithClassName);
 
-const MOCK_REVIEWS = {
-  '1': [
-    {
-      rating: 5,
-      comment: "Amazing car! The performance is unmatched and the service was excellent. Would definitely rent again.",
-      userName: "Alex Thompson",
-      userImage: "https://i.pravatar.cc/150?u=alex",
-      date: "March 15, 2024"
-    },
-    {
-      rating: 5,
-      comment: "Best supercar experience ever! The Koenigsegg exceeded all my expectations.",
-      userName: "Sarah Chen",
-      userImage: "https://i.pravatar.cc/150?u=sarah",
-      date: "March 10, 2024"
-    }
-  ],
-  '2': [
-    {
-      rating: 4,
-      comment: "The GT-R is a beast! Great handling and power. Rental process was smooth.",
-      userName: "Mike Johnson",
-      userImage: "https://i.pravatar.cc/150?u=mike",
-      date: "March 20, 2024"
-    }
-  ],
-  '3': [
-    {
-      rating: 4,
-      comment: "Perfect family SUV. Spacious and comfortable for long trips.",
-      userName: "Emily Parker",
-      userImage: "https://i.pravatar.cc/150?u=emily",
-      date: "March 18, 2024"
-    }
-  ],
-  '4': [
-    {
-      rating: 4,
-      comment: "Very reliable SUV with great features. Fuel efficient too!",
-      userName: "David Wilson",
-      userImage: "https://i.pravatar.cc/150?u=david",
-      date: "March 12, 2024"
-    }
-  ],
-  '5': [
-    {
-      rating: 4,
-      comment: "Good car for city driving. Compact yet spacious inside.",
-      userName: "Lisa Anderson",
-      userImage: "https://i.pravatar.cc/150?u=lisa",
-      date: "March 8, 2024"
-    }
-  ]
-};
-
 export default function DetailScreen() {
-  const { id } = useLocalSearchParams();
-  const router = useRouter();
-  const { car, loading } = useCarDetail(id as string);
+  const { params } = useRoute<RouteProp<RootStackParamList, 'DetailScreen'>>();
+  const { navigate } = useNavigation<NavigationProps>();
+  const { car, loading } = useCarDetail(params.carId);
+  const { isAuthenticated } = useAuth();
+  const { cars } = useCars();
   const { colorScheme } = useColorScheme();
   const [favorites, setFavorites] = React.useState<string[]>([]);
   const model = car?.carModel;
@@ -85,7 +38,20 @@ export default function DetailScreen() {
       prev.includes(id) ? prev.filter(fid => fid !== id) : [...prev, id]
     );
   };
-  
+
+  const handlePaymentPress = () => {
+    if (isAuthenticated)
+      navigate(
+        'PaymentScreen',
+        {
+          car: car!,
+          totalCost: car?.pricePerDay!
+        }
+      )
+    else
+      navigate('AuthScreen')
+  }
+
   console.log(JSON.stringify(car, null, 2))
 
   if (loading) {
@@ -109,24 +75,11 @@ export default function DetailScreen() {
   return (
     <SafeAreaView className="flex-1 bg-background">
       <ScrollView className='mx-2' showsVerticalScrollIndicator={false}>
-        {/* Header */}
-        <View className="flex-row items-center px-4 py-3 border-b border-border">
-          <Button
-            variant="ghost"
-            size="icon"
-            className="rounded-full mr-4"
-            onPress={() => router.navigate("/")}
-          >
-            <ChevronLeft size={24} className="text-foreground" />
-          </Button>
-          <Text className="text-xl font-bold text-primary">Car Details</Text>
-        </View>
-
         {/* Car Image */}
-        <View className="p-4">
+        <View className="px-4 pb-4">
           <Card className="overflow-hidden bg-card p-6">
             <Image
-              source={{uri: car.images[0].url}}
+              source={{ uri: car.images[0].url }}
               className="w-full h-48"
               resizeMode="contain"
               accessibilityLabel={`Image of ${car.title}`}
@@ -138,11 +91,11 @@ export default function DetailScreen() {
         <View className="px-4">
           <View className="flex-row justify-between items-start mb-4">
             <View>
-              <Text className="text-2xl font-bold">{car.title}</Text>
+              <Text className="text-2xl font-black">{car.title}</Text>
               <Text className="text-lg text-muted-foreground">{car.carModel.type}</Text>
             </View>
             <View className="items-end">
-              <Text className="text-2xl font-bold">${car.pricePerDay}</Text>
+              <Text className="text-2xl font-black">${car.pricePerDay}</Text>
               <Text className="text-muted-foreground">/day</Text>
             </View>
           </View>
@@ -171,13 +124,13 @@ export default function DetailScreen() {
 
           {/* Reviews Section */}
           <ReviewsList
-            reviews={MOCK_REVIEWS[id as keyof typeof MOCK_REVIEWS] || []}
+            carId={car.id}
             className="mt-6"
           />
 
-          {/* <CarList
+          <CarList
             title="Recent Cars"
-            cars={RECENT_CARS}
+            cars={cars}
             layout="horizontal"
             favorites={favorites}
             onToggleFavorite={toggleFavorite}
@@ -186,30 +139,25 @@ export default function DetailScreen() {
 
           <CarList
             title="Recommended Cars"
-            cars={RECOMMENDED_CARS}
+            cars={cars}
             layout="horizontal"
             favorites={favorites}
             onToggleFavorite={toggleFavorite}
             containerClassName="mt-6 mb-4"
-          /> */}
+          />
         </View>
       </ScrollView>
 
       {/* Bottom Action */}
       <View className="p-4 border-t border-border bg-background">
-        <Button 
-          className="w-full" 
-          onPress={() => router.push({
-            pathname: '/payment',
-            params: {
-              carId: car.id,
-              total: car.pricePerDay
-            }
-          })}
+        <Button
+          className="w-full"
+          onPress={handlePaymentPress}
         >
           <Text className="text-primary-foreground font-semibold">
-            Proceed to Payment
+          { isAuthenticated ? "Proceed to Payment" : "Login to start renting" }
           </Text>
+
         </Button>
       </View>
     </SafeAreaView>

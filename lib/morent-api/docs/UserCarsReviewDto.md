@@ -5,7 +5,12 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**carImageUrl** | **string** |  | [optional] [default to undefined]
+**rental** | [**RentalDto**](RentalDto.md) |  | [default to undefined]
+**car** | [**CarDto**](CarDto.md) |  | [default to undefined]
+**carImageUrl** | **string** |  | [default to undefined]
+**rating** | **number** |  | [default to undefined]
+**comment** | **string** |  | [default to undefined]
+**isReviewed** | **boolean** |  | [default to undefined]
 
 ## Example
 
@@ -13,7 +18,12 @@ Name | Type | Description | Notes
 import { UserCarsReviewDto } from './api';
 
 const instance: UserCarsReviewDto = {
+    rental,
+    car,
     carImageUrl,
+    rating,
+    comment,
+    isReviewed,
 };
 ```
 

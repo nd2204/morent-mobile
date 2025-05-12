@@ -19,7 +19,7 @@ import SignupScreen from './signup';
 export default function AuthLayout() {
   const [value, setValue] = React.useState('signin');
   return (
-    <View className='flex-1 justify-center p-6'>
+    <View className='flex-1 p-6'>
       <Tabs
         value={value}
         onValueChange={setValue}

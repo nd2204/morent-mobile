@@ -99,7 +99,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **apiUsersMeRentalsGet**
-> apiUsersMeRentalsGet()
+> Array<RentalDto> apiUsersMeRentalsGet()
 
 
 ### Example
@@ -122,7 +122,7 @@ This endpoint does not have any parameters.
 
 ### Return type
 
-void (empty response body)
+**Array<RentalDto>**
 
 ### Authorization
 
@@ -131,7 +131,7 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: Not defined
+ - **Accept**: text/plain, application/json, text/json
 
 
 ### HTTP response details
@@ -142,7 +142,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **apiUsersMeReviewsGet**
-> UserCarsReviewDto apiUsersMeReviewsGet()
+> Array<UserCarsReviewDto> apiUsersMeReviewsGet()
 
 
 ### Example
@@ -165,7 +165,7 @@ This endpoint does not have any parameters.
 
 ### Return type
 
-**UserCarsReviewDto**
+**Array<UserCarsReviewDto>**
 
 ### Authorization
 

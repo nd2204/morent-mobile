@@ -17,56 +17,44 @@
 /**
  * 
  * @export
- * @interface ReviewDto
+ * @interface ValidationProblemDetails
  */
-export interface ReviewDto {
+export interface ValidationProblemDetails {
     /**
      * 
      * @type {string}
-     * @memberof ReviewDto
+     * @memberof ValidationProblemDetails
      */
-    'id': string;
+    'type'?: string | null;
     /**
      * 
      * @type {string}
-     * @memberof ReviewDto
+     * @memberof ValidationProblemDetails
      */
-    'userId': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ReviewDto
-     */
-    'userName': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof ReviewDto
-     */
-    'carId': string;
+    'title'?: string | null;
     /**
      * 
      * @type {number}
-     * @memberof ReviewDto
+     * @memberof ValidationProblemDetails
      */
-    'rating': number;
+    'status'?: number | null;
     /**
      * 
      * @type {string}
-     * @memberof ReviewDto
+     * @memberof ValidationProblemDetails
      */
-    'comment': string;
+    'detail'?: string | null;
     /**
      * 
      * @type {string}
-     * @memberof ReviewDto
+     * @memberof ValidationProblemDetails
      */
-    'createdAt': string;
+    'instance'?: string | null;
     /**
      * 
-     * @type {string}
-     * @memberof ReviewDto
+     * @type {{ [key: string]: Array<string>; }}
+     * @memberof ValidationProblemDetails
      */
-    'userImageUrl': string;
+    'errors'?: { [key: string]: Array<string>; };
 }
 

@@ -25,18 +25,24 @@ export interface UserDto {
      * @type {string}
      * @memberof UserDto
      */
-    'userId'?: string;
+    'userId': string;
     /**
      * 
      * @type {string}
      * @memberof UserDto
      */
-    'name'?: string;
+    'imageUrl': string;
     /**
      * 
      * @type {string}
      * @memberof UserDto
      */
-    'email'?: string;
+    'name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof UserDto
+     */
+    'email': string;
 }
 

@@ -5,15 +5,14 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **string** |  | [optional] [default to undefined]
-**userId** | **string** |  | [optional] [default to undefined]
-**userName** | **string** |  | [optional] [default to undefined]
-**carId** | **string** |  | [optional] [default to undefined]
-**carDetails** | **string** |  | [optional] [default to undefined]
-**rating** | **number** |  | [optional] [default to undefined]
-**comment** | **string** |  | [optional] [default to undefined]
-**createdAt** | **string** |  | [optional] [default to undefined]
-**imageUrl** | **string** |  | [optional] [default to undefined]
+**id** | **string** |  | [default to undefined]
+**userId** | **string** |  | [default to undefined]
+**userName** | **string** |  | [default to undefined]
+**carId** | **string** |  | [default to undefined]
+**rating** | **number** |  | [default to undefined]
+**comment** | **string** |  | [default to undefined]
+**createdAt** | **string** |  | [default to undefined]
+**userImageUrl** | **string** |  | [default to undefined]
 
 ## Example
 
@@ -25,11 +24,10 @@ const instance: ReviewDto = {
     userId,
     userName,
     carId,
-    carDetails,
     rating,
     comment,
     createdAt,
-    imageUrl,
+    userImageUrl,
 };
 ```
 

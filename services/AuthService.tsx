@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import * as SecureStore from 'expo-secure-store';
-import { Configuration, AuthApi, LoginRequest, RefreshTokenRequest } from '~/lib/morent-api';
+import { Configuration, AuthApi, LoginRequest, RefreshTokenRequest, UserDto, AuthResponse } from '~/lib/morent-api';
 import axios, { AxiosError } from 'axios';
 import { API_URL } from '~/lib/constants';
 
@@ -12,7 +12,7 @@ const USER_DATA_KEY = 'auth_user_data';
 interface AuthState {
   isAuthenticated: boolean;
   isLoading: boolean;
-  user: any | null;
+  user: UserDto | null;
   accessToken: string | null;
   refreshToken: string | null;
 }
@@ -22,6 +22,7 @@ interface AuthContextType extends AuthState {
   register: (userData: any) => Promise<any>;
   logout: () => Promise<void>;
   getAccessToken: () => Promise<string | null>;
+  isValidationErrorResponse: (response: any) => boolean;
 }
 
 
@@ -224,7 +225,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       };
 
       const response = await apiInstance.api.apiAuthLoginPost({ loginRequest: loginData });
-      const { accessToken, refreshToken, user } = response.data;
+      console.log(JSON.stringify(response.data, null, 2))
+      const { accessToken, refreshToken, user } = response.data as AuthResponse;
 
       // Store tokens and user data
       await Promise.all([
@@ -302,6 +304,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
+  const isValidationErrorResponse = (response: any) : boolean => {
+    return response && typeof response.errors == 'object' && typeof response.status === 'number';
+  }
+
   // Create context value
   const contextValue: AuthContextType = {
     ...state,
@@ -309,6 +315,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     register,
     logout,
     getAccessToken,
+    isValidationErrorResponse
   };
 
   return (

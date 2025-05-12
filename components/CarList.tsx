@@ -1,14 +1,21 @@
 import * as React from 'react';
-import { FlatList, View } from 'react-native';
+import { FlatList, Pressable, View } from 'react-native';
 import { Text } from '~/components/ui/text';
 import { Link } from 'expo-router';
 import { CarCard, CarCardProps } from './CarCard';
 import { cn } from '~/lib/utils';
 import { CarDto } from '~/lib/morent-api';
+import { Button } from './ui/button';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { TabParamList } from '~/types/TabParamList';
+import { RootStackParamList } from '~/types/RootStackParamList';
+import { NavigationProps } from '~/types/NavigationProps';
+import { useCars, UseCarsOptions } from '~/hooks/useCars';
 
 interface CarListProps {
   title?: string;
-  cars: CarDto[];
+  options?: UseCarsOptions;
   layout?: 'vertical' | 'horizontal';
   favorites: string[];
   onToggleFavorite: (id: string) => void;
@@ -19,32 +26,67 @@ interface CarListProps {
   listFooterComponent?: any
 }
 
+const DefaultOptions: UseCarsOptions = {
+  page: 1,
+  pageSize: 10,
+};
+
 export function CarList({
   title,
-  cars,
+  options = DefaultOptions,
   layout = 'horizontal',
   favorites,
   onToggleFavorite,
   showViewAll = true,
-  viewAllLink = "/",
   containerClassName,
   listHeaderComponent = () => <View></View>,
   listFooterComponent = () => <View></View>
 }: CarListProps) {
   const isHorizontal = layout === 'horizontal';
+  const { navigate } = useNavigation<NavigationProps>()
+  const { cars, loading, setOptions } = useCars();
+  const [ page, setPage ] = React.useState(options.page ?? DefaultOptions.page!)
+
+  const data = React.useMemo(() => {
+
+  }, [cars])
+
+  React.useEffect(() => {
+    if (options) {
+      setOptions(options)
+    }
+  }, [options])
+
+  React.useEffect(() => {
+    setOptions(options => options = {
+      ...options,
+      page: page + 1
+    })
+    if (!loading) {
+      console.log(page, cars.length)
+    }
+  }, [page])
 
   const renderHeader = () => {
     if (!title) return null;
-    
+
     return (
-      <View className={"flex-row justify-between mb-4"}>
-        <Text className="text-lg font-semibold text-primary">{title}</Text>
+      <View className={"flex-row justify-between items-center mb-4 "}>
+        <Text className="text-xl font-black text-primary">{title}</Text>
         {showViewAll && (
-          <Link href={viewAllLink} className="text-blue-500">View All</Link>
+          <Button variant="secondary" onPress={() => navigate("CategoryScreen")}>
+            <Text className="font-black">View All</Text>
+          </Button>
         )}
       </View>
     );
   };
+
+  const handleEndReached = () => {
+    if (!loading) {
+      setPage(p => p + 1)
+    }
+  }
 
   return (
     <View className={containerClassName}>
@@ -69,6 +111,7 @@ export function CarList({
             />
           </View>
         )}
+        onEndReached={handleEndReached}
         ListHeaderComponent={listHeaderComponent}
         ListFooterComponent={listFooterComponent}
       />

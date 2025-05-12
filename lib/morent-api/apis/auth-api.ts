@@ -26,11 +26,11 @@ import type { AuthResponse } from '../models';
 // @ts-ignore
 import type { LoginRequest } from '../models';
 // @ts-ignore
-import type { ProblemDetails } from '../models';
-// @ts-ignore
 import type { RefreshTokenRequest } from '../models';
 // @ts-ignore
 import type { RegisterUserCommand } from '../models';
+// @ts-ignore
+import type { ValidationProblemDetails } from '../models';
 /**
  * AuthApi - axios parameter creator
  * @export
@@ -267,7 +267,7 @@ export const AuthApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiAuthLoginPost(loginRequest: LoginRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AuthResponse>> {
+        async apiAuthLoginPost(loginRequest: LoginRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ValidationProblemDetails>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.apiAuthLoginPost(loginRequest, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['AuthApi.apiAuthLoginPost']?.[localVarOperationServerIndex]?.url;
@@ -340,7 +340,7 @@ export const AuthApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiAuthLoginPost(requestParameters: AuthApiApiAuthLoginPostRequest, options?: RawAxiosRequestConfig): AxiosPromise<AuthResponse> {
+        apiAuthLoginPost(requestParameters: AuthApiApiAuthLoginPostRequest, options?: RawAxiosRequestConfig): AxiosPromise<ValidationProblemDetails> {
             return localVarFp.apiAuthLoginPost(requestParameters.loginRequest, options).then((request) => request(axios, basePath));
         },
         /**

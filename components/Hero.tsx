@@ -3,13 +3,15 @@ import { Image, View } from 'react-native';
 import { Text } from './ui/text';
 import { Button } from './ui/button';
 import { Card } from './ui/card';
-import { useRouter } from 'expo-router';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { TabParamList } from '~/types/TabParamList';
 
 export function Hero() {
-  const router = useRouter();
+  const { navigate } = useNavigation<NativeStackNavigationProp<TabParamList>>();
 
   return (
-    <Card className='mx-5 mt-8'>
+    <View className='mb-4'>
       <View className="bg-background px-4 py-6">
         <View className="gap-y-4">
           <Text className="text-3xl font-bold text-foreground leading-tight">
@@ -20,9 +22,9 @@ export function Hero() {
           </Text>
           <Button 
             className="mt-4 w-40" 
-            onPress={() => router.push('/category')}
+            onPress={() => navigate('CategoryScreen')}
           >
-            <Text className="text-primary-foreground font-semibold">Rental Car</Text>
+            <Text className="text-primary-foreground font-semibold">Explore Now</Text>
           </Button>
         </View>
         <View className="mt-6">
@@ -34,6 +36,6 @@ export function Hero() {
           />
         </View>
       </View>
-    </Card>
+    </View>
   );
 }

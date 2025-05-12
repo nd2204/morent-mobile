@@ -20,74 +20,38 @@ import type { CarLocationDto } from './car-location-dto';
 /**
  * 
  * @export
- * @interface RentalDto
+ * @interface CreateRentalRequest
  */
-export interface RentalDto {
+export interface CreateRentalRequest {
     /**
      * 
      * @type {string}
-     * @memberof RentalDto
-     */
-    'id': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof RentalDto
-     */
-    'userId': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof RentalDto
+     * @memberof CreateRentalRequest
      */
     'carId': string;
     /**
      * 
      * @type {string}
-     * @memberof RentalDto
+     * @memberof CreateRentalRequest
      */
     'pickupDate': string;
     /**
      * 
      * @type {string}
-     * @memberof RentalDto
+     * @memberof CreateRentalRequest
      */
     'dropoffDate': string;
     /**
      * 
      * @type {CarLocationDto}
-     * @memberof RentalDto
+     * @memberof CreateRentalRequest
      */
     'pickupLocation': CarLocationDto;
     /**
      * 
      * @type {CarLocationDto}
-     * @memberof RentalDto
+     * @memberof CreateRentalRequest
      */
     'dropoffLocation': CarLocationDto;
-    /**
-     * 
-     * @type {number}
-     * @memberof RentalDto
-     */
-    'totalCost': number;
-    /**
-     * 
-     * @type {string}
-     * @memberof RentalDto
-     */
-    'currency': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof RentalDto
-     */
-    'status': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof RentalDto
-     */
-    'createdAt': string;
 }
 

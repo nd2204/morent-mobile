@@ -173,7 +173,7 @@ export const ReviewApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiReviewsCarCarIdPost(carId: string, leaveReviewRequest: LeaveReviewRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
+        async apiReviewsCarCarIdPost(carId: string, leaveReviewRequest: LeaveReviewRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ReviewDto>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.apiReviewsCarCarIdPost(carId, leaveReviewRequest, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['ReviewApi.apiReviewsCarCarIdPost']?.[localVarOperationServerIndex]?.url;
@@ -217,7 +217,7 @@ export const ReviewApiFactory = function (configuration?: Configuration, basePat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiReviewsCarCarIdPost(requestParameters: ReviewApiApiReviewsCarCarIdPostRequest, options?: RawAxiosRequestConfig): AxiosPromise<string> {
+        apiReviewsCarCarIdPost(requestParameters: ReviewApiApiReviewsCarCarIdPostRequest, options?: RawAxiosRequestConfig): AxiosPromise<ReviewDto> {
             return localVarFp.apiReviewsCarCarIdPost(requestParameters.carId, requestParameters.leaveReviewRequest, options).then((request) => request(axios, basePath));
         },
         /**

@@ -324,7 +324,33 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RentalDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RentalDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RentalDto"
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -340,17 +366,26 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/UserCarsReviewDto"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserCarsReviewDto"
+                  }
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/UserCarsReviewDto"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserCarsReviewDto"
+                  }
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/UserCarsReviewDto"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserCarsReviewDto"
+                  }
                 }
               }
             }
@@ -1159,17 +1194,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/AuthResponse"
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AuthResponse"
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AuthResponse"
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
                 }
               }
             }
@@ -1179,17 +1214,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
                 }
               }
             }
@@ -1199,17 +1234,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
                 }
               }
             }
@@ -1268,17 +1303,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "$ref": "#/components/schemas/ValidationProblemDetails"
                 }
               }
             }
@@ -1589,20 +1624,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "string",
-                  "format": "uuid"
+                  "$ref": "#/components/schemas/ReviewDto"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "string",
-                  "format": "uuid"
+                  "$ref": "#/components/schemas/ReviewDto"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "string",
-                  "format": "uuid"
+                  "$ref": "#/components/schemas/ReviewDto"
                 }
               }
             }
@@ -1953,7 +1985,34 @@
         }
       },
       "CreateRentalRequest": {
-        "type": "object"
+        "required": [
+          "carId",
+          "pickupDate",
+          "dropoffDate",
+          "pickupLocation",
+          "dropoffLocation"
+        ],
+        "type": "object",
+        "properties": {
+          "carId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "pickupDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dropoffDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "pickupLocation": {
+            "$ref": "#/components/schemas/CarLocationDto"
+          },
+          "dropoffLocation": {
+            "$ref": "#/components/schemas/CarLocationDto"
+          }
+        }
       },
       "IFormFile": {
         "type": "string",
@@ -1989,9 +2048,6 @@
             "type": "string"
           }
         }
-      },
-      "MorentRentalStatus": {
-        "type": "integer"
       },
       "ProblemDetails": {
         "type": "object",
@@ -2055,14 +2111,32 @@
         }
       },
       "RentalDto": {
+        "required": [
+          "id",
+          "userId",
+          "carId",
+          "pickupDate",
+          "dropoffDate",
+          "pickupLocation",
+          "dropoffLocation",
+          "totalCost",
+          "currency",
+          "status",
+          "createdAt"
+        ],
         "type": "object",
         "properties": {
           "id": {
             "type": "string",
             "format": "uuid"
           },
-          "carInfo": {
-            "$ref": "#/components/schemas/CarDto"
+          "userId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "carId": {
+            "type": "string",
+            "format": "uuid"
           },
           "pickupDate": {
             "type": "string",
@@ -2086,7 +2160,7 @@
             "type": "string"
           },
           "status": {
-            "$ref": "#/components/schemas/MorentRentalStatus"
+            "type": "string"
           },
           "createdAt": {
             "type": "string",
@@ -2095,6 +2169,16 @@
         }
       },
       "ReviewDto": {
+        "required": [
+          "id",
+          "userId",
+          "userName",
+          "carId",
+          "rating",
+          "comment",
+          "createdAt",
+          "userImageUrl"
+        ],
         "type": "object",
         "properties": {
           "id": {
@@ -2112,9 +2196,6 @@
             "type": "string",
             "format": "uuid"
           },
-          "carDetails": {
-            "type": "string"
-          },
           "rating": {
             "type": "integer",
             "format": "int32"
@@ -2126,7 +2207,7 @@
             "type": "string",
             "format": "date-time"
           },
-          "imageUrl": {
+          "userImageUrl": {
             "type": "string"
           }
         }
@@ -2193,19 +2274,52 @@
         }
       },
       "UserCarsReviewDto": {
+        "required": [
+          "rental",
+          "car",
+          "carImageUrl",
+          "rating",
+          "comment",
+          "isReviewed"
+        ],
         "type": "object",
         "properties": {
+          "rental": {
+            "$ref": "#/components/schemas/RentalDto"
+          },
+          "car": {
+            "$ref": "#/components/schemas/CarDto"
+          },
           "carImageUrl": {
             "type": "string"
+          },
+          "rating": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "comment": {
+            "type": "string"
+          },
+          "isReviewed": {
+            "type": "boolean"
           }
         }
       },
       "UserDto": {
+        "required": [
+          "userId",
+          "imageUrl",
+          "name",
+          "email"
+        ],
         "type": "object",
         "properties": {
           "userId": {
             "type": "string",
             "format": "uuid"
+          },
+          "imageUrl": {
+            "type": "string"
           },
           "name": {
             "type": "string"
@@ -2230,6 +2344,41 @@
             "type": "string",
             "format": "date-time",
             "nullable": true
+          }
+        }
+      },
+      "ValidationProblemDetails": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "detail": {
+            "type": "string",
+            "nullable": true
+          },
+          "instance": {
+            "type": "string",
+            "nullable": true
+          },
+          "errors": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
           }
         }
       }

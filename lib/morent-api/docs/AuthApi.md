@@ -98,7 +98,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **apiAuthLoginPost**
-> AuthResponse apiAuthLoginPost(loginRequest)
+> ValidationProblemDetails apiAuthLoginPost(loginRequest)
 
 
 ### Example
@@ -129,7 +129,7 @@ const { status, data } = await apiInstance.apiAuthLoginPost(
 
 ### Return type
 
-**AuthResponse**
+**ValidationProblemDetails**
 
 ### Authorization
 

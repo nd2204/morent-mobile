@@ -1,39 +1,27 @@
-# RentalDto
+# CreateRentalRequest
 
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **string** |  | [default to undefined]
-**userId** | **string** |  | [default to undefined]
 **carId** | **string** |  | [default to undefined]
 **pickupDate** | **string** |  | [default to undefined]
 **dropoffDate** | **string** |  | [default to undefined]
 **pickupLocation** | [**CarLocationDto**](CarLocationDto.md) |  | [default to undefined]
 **dropoffLocation** | [**CarLocationDto**](CarLocationDto.md) |  | [default to undefined]
-**totalCost** | **number** |  | [default to undefined]
-**currency** | **string** |  | [default to undefined]
-**status** | **string** |  | [default to undefined]
-**createdAt** | **string** |  | [default to undefined]
 
 ## Example
 
 ```typescript
-import { RentalDto } from './api';
+import { CreateRentalRequest } from './api';
 
-const instance: RentalDto = {
-    id,
-    userId,
+const instance: CreateRentalRequest = {
     carId,
     pickupDate,
     dropoffDate,
     pickupLocation,
     dropoffLocation,
-    totalCost,
-    currency,
-    status,
-    createdAt,
 };
 ```
 

@@ -22,6 +22,8 @@ import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObj
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, type RequestArgs, BaseAPI, RequiredError, operationServerMap } from '../base';
 // @ts-ignore
+import type { CreateRentalRequest } from '../models';
+// @ts-ignore
 import type { RentalDto } from '../models';
 /**
  * RentalApi - axios parameter creator
@@ -32,16 +34,16 @@ export const RentalApiAxiosParamCreator = function (configuration?: Configuratio
         /**
          * 
          * @param {string} id 
-         * @param {object} body 
+         * @param {CreateRentalRequest} createRentalRequest 
          * @param {string} [carId] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiRentalsCarIdPost: async (id: string, body: object, carId?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiRentalsCarIdPost: async (id: string, createRentalRequest: CreateRentalRequest, carId?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('apiRentalsCarIdPost', 'id', id)
-            // verify required parameter 'body' is not null or undefined
-            assertParamExists('apiRentalsCarIdPost', 'body', body)
+            // verify required parameter 'createRentalRequest' is not null or undefined
+            assertParamExists('apiRentalsCarIdPost', 'createRentalRequest', createRentalRequest)
             const localVarPath = `/api/rentals/car/{id}`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -66,7 +68,7 @@ export const RentalApiAxiosParamCreator = function (configuration?: Configuratio
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(createRentalRequest, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -148,13 +150,13 @@ export const RentalApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @param {string} id 
-         * @param {object} body 
+         * @param {CreateRentalRequest} createRentalRequest 
          * @param {string} [carId] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiRentalsCarIdPost(id: string, body: object, carId?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.apiRentalsCarIdPost(id, body, carId, options);
+        async apiRentalsCarIdPost(id: string, createRentalRequest: CreateRentalRequest, carId?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiRentalsCarIdPost(id, createRentalRequest, carId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['RentalApi.apiRentalsCarIdPost']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -199,7 +201,7 @@ export const RentalApiFactory = function (configuration?: Configuration, basePat
          * @throws {RequiredError}
          */
         apiRentalsCarIdPost(requestParameters: RentalApiApiRentalsCarIdPostRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.apiRentalsCarIdPost(requestParameters.id, requestParameters.body, requestParameters.carId, options).then((request) => request(axios, basePath));
+            return localVarFp.apiRentalsCarIdPost(requestParameters.id, requestParameters.createRentalRequest, requestParameters.carId, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -236,10 +238,10 @@ export interface RentalApiApiRentalsCarIdPostRequest {
 
     /**
      * 
-     * @type {object}
+     * @type {CreateRentalRequest}
      * @memberof RentalApiApiRentalsCarIdPost
      */
-    readonly body: object
+    readonly createRentalRequest: CreateRentalRequest
 
     /**
      * 
@@ -278,7 +280,7 @@ export class RentalApi extends BaseAPI {
      * @memberof RentalApi
      */
     public apiRentalsCarIdPost(requestParameters: RentalApiApiRentalsCarIdPostRequest, options?: RawAxiosRequestConfig) {
-        return RentalApiFp(this.configuration).apiRentalsCarIdPost(requestParameters.id, requestParameters.body, requestParameters.carId, options).then((request) => request(this.axios, this.basePath));
+        return RentalApiFp(this.configuration).apiRentalsCarIdPost(requestParameters.id, requestParameters.createRentalRequest, requestParameters.carId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

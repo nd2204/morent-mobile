@@ -1,17 +1,34 @@
 import '~/global.css';
 
-import { DarkTheme, DefaultTheme, Theme, ThemeProvider } from '@react-navigation/native';
-import { Stack } from 'expo-router';
+import { DarkTheme, DefaultTheme, Theme, ThemeProvider, NavigationContainer } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
 import * as React from 'react';
-import { Platform } from 'react-native';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { Platform, Text, TouchableOpacity } from 'react-native';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { NAV_THEME } from '~/lib/constants';
 import { useColorScheme } from '~/lib/useColorScheme';
 import { PortalHost } from '@rn-primitives/portal';
 import { setAndroidNavigationBar } from '~/lib/android-navigation-bar';
 import { useAuth } from '~/hooks/useAuth';
 import { AuthProvider } from '~/services/AuthService';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import ProfileScreen from './ProfileScreen';
+import HomeScreen from './HomeScreen';
+import CategoryScreen from './Category';
+import { Header } from '~/components/Header';
+import { ArrowLeft, CarFront, ChevronLeft, HomeIcon, ShoppingCart, User } from 'lucide-react-native';
+import { iconWithClassName } from '~/lib/icons/iconWithClassName';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import type { RootStackParamList } from '~/types/RootStackParamList';
+import { TabParamList } from '~/types/TabParamList';
+import DetailScreen from './DetailScreen';
+import PaymentScreen from './PaymentScreen';
+import RentalsScreen from './RentalsScreen';
+import AuthLayout from './(auth)/_layout';
+import { Button } from '~/components/ui/button';
+import RentalDetailScreen from './RentalDetailScreen';
+
+[CarFront, HomeIcon, ShoppingCart, User].forEach(i => iconWithClassName(i))
 
 const LIGHT_THEME: Theme = {
   ...DefaultTheme,
@@ -21,6 +38,63 @@ const DARK_THEME: Theme = {
   ...DarkTheme,
   colors: NAV_THEME.dark,
 };
+
+
+const Stack = createNativeStackNavigator<RootStackParamList>();
+const BottomTab = createBottomTabNavigator<TabParamList>();
+
+function TabsNavigator() {
+  const {isAuthenticated} = useAuth();
+  return (
+    <BottomTab.Navigator
+      screenOptions={({ route, navigation }) => ({
+        tabBarIcon: ({ focused, color, size }) => {
+          switch (route.name) {
+            case "CategoryScreen":
+              return <CarFront size={20} color={color} />
+            case "HomeScreen":
+              return <HomeIcon size={20} color={color} />
+            case "RentalsScreen":
+              return <ShoppingCart size={20} color={color} />
+            case "ProfileScreen":
+              return <User size={20} color={color} />
+          }
+        },
+        tabBarLabel: route.name.replace("Screen", ""),
+        header: () => {
+          if (route.name === "CategoryScreen")
+            return <Header showSearchBar />
+
+          return <Header />
+        },
+      })}
+    >
+      <BottomTab.Screen
+        name="HomeScreen"
+        component={HomeScreen}
+      />
+      <BottomTab.Screen
+        name="CategoryScreen"
+        component={CategoryScreen}
+      />
+      {
+        isAuthenticated ?
+        <>
+          <BottomTab.Screen
+            name="RentalsScreen"
+            component={RentalsScreen}
+          />
+          <BottomTab.Screen
+            name="ProfileScreen"
+            component={ProfileScreen}
+          />
+        </>
+        :
+        <></>
+      }
+    </BottomTab.Navigator>
+  )
+}
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -55,13 +129,30 @@ export default function RootLayout() {
       <AuthProvider>
         <ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
           <StatusBar style={isDarkColorScheme ? 'light' : 'dark'} />
-          <Stack screenOptions={{
-            headerShown: false,
-          }}>
-            {/* <Stack.Screen name="index" />
-            <Stack.Screen name="payment" /> */}
-            <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-          </Stack>
+          <Stack.Navigator
+            screenOptions={({ route, navigation }) => ({
+
+            })}
+          >
+            <Stack.Screen
+              name="Tabs"
+              component={TabsNavigator}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen name="DetailScreen" component={DetailScreen} />
+            <Stack.Screen name="PaymentScreen" component={PaymentScreen} />
+            <Stack.Screen name="RentalDetailScreen" component={RentalDetailScreen} />
+
+            <Stack.Screen name="AuthScreen" component={AuthLayout}
+              options={{
+                // header: ({ navigation }) => (
+                //   <SafeAreaView>
+                //   </SafeAreaView>
+                // )
+                headerTitle: "",
+                headerShadowVisible: false
+              }} />
+          </Stack.Navigator>
           <PortalHost />
         </ThemeProvider>
       </AuthProvider>

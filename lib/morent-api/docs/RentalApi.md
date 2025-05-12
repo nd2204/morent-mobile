@@ -9,7 +9,7 @@ All URIs are relative to *http://localhost*
 |[**apiRentalsIdGet**](#apirentalsidget) | **GET** /api/rentals/{id} | |
 
 # **apiRentalsCarIdPost**
-> apiRentalsCarIdPost(body)
+> apiRentalsCarIdPost(createRentalRequest)
 
 
 ### Example
@@ -17,19 +17,20 @@ All URIs are relative to *http://localhost*
 ```typescript
 import {
     RentalApi,
-    Configuration
+    Configuration,
+    CreateRentalRequest
 } from './api';
 
 const configuration = new Configuration();
 const apiInstance = new RentalApi(configuration);
 
 let id: string; // (default to undefined)
-let body: object; //
+let createRentalRequest: CreateRentalRequest; //
 let carId: string; // (optional) (default to undefined)
 
 const { status, data } = await apiInstance.apiRentalsCarIdPost(
     id,
-    body,
+    createRentalRequest,
     carId
 );
 ```
@@ -38,7 +39,7 @@ const { status, data } = await apiInstance.apiRentalsCarIdPost(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **body** | **object**|  | |
+| **createRentalRequest** | **CreateRentalRequest**|  | |
 | **id** | [**string**] |  | defaults to undefined|
 | **carId** | [**string**] |  | (optional) defaults to undefined|
 

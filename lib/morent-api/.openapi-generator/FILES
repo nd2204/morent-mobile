@@ -19,6 +19,7 @@ docs/CarImageOrderItem.md
 docs/CarLocationDto.md
 docs/CarModelDto.md
 docs/CreateCarCommand.md
+docs/CreateRentalRequest.md
 docs/LeaveReviewRequest.md
 docs/LoginRequest.md
 docs/ProblemDetails.md
@@ -35,6 +36,7 @@ docs/UserApi.md
 docs/UserCarsReviewDto.md
 docs/UserDto.md
 docs/UserProfileImageDto.md
+docs/ValidationProblemDetails.md
 git_push.sh
 index.ts
 models/auth-response.ts
@@ -45,6 +47,7 @@ models/car-image-order-item.ts
 models/car-location-dto.ts
 models/car-model-dto.ts
 models/create-car-command.ts
+models/create-rental-request.ts
 models/index.ts
 models/leave-review-request.ts
 models/login-request.ts
@@ -59,3 +62,4 @@ models/upload-car-image-request.ts
 models/user-cars-review-dto.ts
 models/user-dto.ts
 models/user-profile-image-dto.ts
+models/validation-problem-details.ts

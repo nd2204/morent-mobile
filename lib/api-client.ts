@@ -1,6 +1,7 @@
 import { Configuration, CarApi, AuthApi, RentalApi, ReviewApi, UserApi } from 'lib/morent-api';
 import { API_URL } from './constants';
 import axios from 'axios';
+import { api } from '~/services/AuthService';
 
 axios.defaults.validateStatus = status => status < 500;
 
@@ -15,9 +16,27 @@ const configuration = new Configuration({
     },
 });
 
+export const createApiClients = () => {
+  const config = new Configuration({
+    basePath: API_URL,
+    baseOptions: {
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+    },
+  });
+
+  return {
+    carApi: new CarApi(config, undefined, api),
+    rentalApi: new RentalApi(config, undefined, api),
+    reviewApi: new ReviewApi(config, undefined, api),
+    userApi: new UserApi(config, undefined, api),
+  };
+};
+
 // Export all API instances
-export const carApi = new CarApi(configuration);
-export const authApi = new AuthApi(configuration);
-export const rentalApi = new RentalApi(configuration);
-export const reviewApi = new ReviewApi(configuration);
-export const userApi = new UserApi(configuration);
+export const carApi = new CarApi(configuration, undefined, api);
+export const rentalApi = new RentalApi(configuration, undefined, api);
+export const reviewApi = new ReviewApi(configuration, undefined, api);
+export const userApi = new UserApi(configuration, undefined, api);

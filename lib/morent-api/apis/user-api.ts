@@ -24,6 +24,8 @@ import { BASE_PATH, COLLECTION_FORMATS, type RequestArgs, BaseAPI, RequiredError
 // @ts-ignore
 import type { ProblemDetails } from '../models';
 // @ts-ignore
+import type { RentalDto } from '../models';
+// @ts-ignore
 import type { UserCarsReviewDto } from '../models';
 // @ts-ignore
 import type { UserDto } from '../models';
@@ -296,7 +298,7 @@ export const UserApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiUsersMeRentalsGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+        async apiUsersMeRentalsGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<RentalDto>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.apiUsersMeRentalsGet(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['UserApi.apiUsersMeRentalsGet']?.[localVarOperationServerIndex]?.url;
@@ -307,7 +309,7 @@ export const UserApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiUsersMeReviewsGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserCarsReviewDto>> {
+        async apiUsersMeReviewsGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<UserCarsReviewDto>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.apiUsersMeReviewsGet(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['UserApi.apiUsersMeReviewsGet']?.[localVarOperationServerIndex]?.url;
@@ -381,7 +383,7 @@ export const UserApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiUsersMeRentalsGet(options?: RawAxiosRequestConfig): AxiosPromise<void> {
+        apiUsersMeRentalsGet(options?: RawAxiosRequestConfig): AxiosPromise<Array<RentalDto>> {
             return localVarFp.apiUsersMeRentalsGet(options).then((request) => request(axios, basePath));
         },
         /**
@@ -389,7 +391,7 @@ export const UserApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiUsersMeReviewsGet(options?: RawAxiosRequestConfig): AxiosPromise<UserCarsReviewDto> {
+        apiUsersMeReviewsGet(options?: RawAxiosRequestConfig): AxiosPromise<Array<UserCarsReviewDto>> {
             return localVarFp.apiUsersMeReviewsGet(options).then((request) => request(axios, basePath));
         },
         /**

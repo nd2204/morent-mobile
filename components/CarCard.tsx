@@ -6,9 +6,11 @@ import { Button } from '~/components/ui/button';
 import { Card } from '~/components/ui/card';
 import { cn } from '~/lib/utils';
 import { iconWithClassName } from '~/lib/icons/iconWithClassName';
-import { useRouter } from 'expo-router';
 import { FavoriteButton } from './FavoriteButton';
 import { CarDto } from '~/lib/morent-api';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '~/types/RootStackParamList';
 
 // Register icons with NativeWind
 [Fuel, GaugeCircle, Users].forEach(iconWithClassName);
@@ -28,19 +30,19 @@ export function CarCard({
   onPressRent,
   onToggleFavorite,
 }: CarCardProps) {
-  const router = useRouter();
+  const { navigate } = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const isHorizontal = layout === 'horizontal';
 
   const handlePressRent = () => {
-    router.push(`/${car.id}`);
+    navigate("DetailScreen", { carId: car.id });
   };
 
   const renderTitle = () => {
     return (
       <View className="flex-row items-start justify-between">
         <View>
-          <Text className="text-xl font-semibold">{car.title}</Text>
-          <Text className="text-md text-muted-foreground mt-1">{car.carModel.type}</Text>
+          <Text className="text-xl font-black">{car.title}</Text>
+          <Text className="text-md font-semibold text-muted-foreground mt-1">{car.carModel.type}</Text>
         </View>
         <FavoriteButton 
           isFavorite={isFavorite} 
@@ -74,15 +76,15 @@ export function CarCard({
       )}>
         <View className="flex-row items-center gap-2">
           <Fuel size={20} className="text-muted-foreground" />
-          <Text className="text-md text-muted-foreground">{car.carModel.fuelTankCapacity}</Text>
+          <Text className="text-md text-muted-foreground font-semibold">{car.carModel.fuelTankCapacity}</Text>
         </View>
         <View className="flex-row items-center gap-2">
           <GaugeCircle size={20} className="text-muted-foreground" />
-          <Text className="text-md text-muted-foreground">{car.carModel.gearBox}</Text>
+          <Text className="text-md text-muted-foreground font-semibold">{car.carModel.gearBox}</Text>
         </View>
         <View className="flex-row items-center gap-2">
           <Users size={20} className="text-muted-foreground" />
-          <Text className="text-md text-muted-foreground">{car.carModel.seatCapacity}</Text>
+          <Text className="text-md text-muted-foreground font-semibold">{car.carModel.seatCapacity}</Text>
         </View>
       </View>
     )
@@ -95,7 +97,7 @@ export function CarCard({
         ? 'min-h-[180px]'
         : 'min-w-[280px]'
     )}>
-      <Pressable onPress={() => router.push(`/${car.id}`)}>
+      <Pressable onPress={handlePressRent}>
         {renderTitle()}
 
         {/*Render image and feature on the same line*/}
@@ -111,13 +113,13 @@ export function CarCard({
 
         <View className={cn('flex-row items-center justify-between mt-5')}>
           <View className="flex-row items-baseline">
-            <Text className="text-2xl font-bold" numberOfLines={1}>
+            <Text className="text-2xl font-black" numberOfLines={1}>
               ${car.pricePerDay}/
             </Text>
-            <Text className="text-md text-muted-foreground" >day</Text>
+            <Text className="text-md text-muted-foreground font-semibold" >day</Text>
           </View>
           <Button className="px-4" size="default" onPress={handlePressRent}>
-            <Text className="text-primary-foreground font-semibold text-sm">Rent Now</Text>
+            <Text className="text-primary-foreground font-semibold font-black">Rent Now</Text>
           </Button>
         </View>
 

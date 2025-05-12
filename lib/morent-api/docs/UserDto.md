@@ -5,9 +5,10 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**userId** | **string** |  | [optional] [default to undefined]
-**name** | **string** |  | [optional] [default to undefined]
-**email** | **string** |  | [optional] [default to undefined]
+**userId** | **string** |  | [default to undefined]
+**imageUrl** | **string** |  | [default to undefined]
+**name** | **string** |  | [default to undefined]
+**email** | **string** |  | [default to undefined]
 
 ## Example
 
@@ -16,6 +17,7 @@ import { UserDto } from './api';
 
 const instance: UserDto = {
     userId,
+    imageUrl,
     name,
     email,
 };

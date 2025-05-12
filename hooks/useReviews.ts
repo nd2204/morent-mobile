@@ -11,7 +11,7 @@ export function useReviews(carId?: string) {
         if (!carId) return;
         try {
             setLoading(true);
-            const response = await reviewApi.apiCarsCarIdReviewsGet({ carId });
+            const response = await reviewApi.apiReviewsCarCarIdGet({ carId });
             setReviews(response.data);
         } catch (err) {
             setError(err instanceof Error ? err : new Error('Failed to fetch reviews'));
@@ -20,10 +20,13 @@ export function useReviews(carId?: string) {
         }
     };
 
-    const leaveReview = async (review: LeaveReviewRequest) => {
+    const leaveReview = async (carId: string, review: LeaveReviewRequest) => {
         try {
             setLoading(true);
-            await reviewApi.apiReviewsPost({ leaveReviewRequest: review });
+            await reviewApi.apiReviewsCarCarIdPost({
+                carId: carId,
+                leaveReviewRequest: review,
+            });
             await fetchReviews(); // Refresh reviews after posting
         } catch (err) {
             setError(err instanceof Error ? err : new Error('Failed to leave review'));

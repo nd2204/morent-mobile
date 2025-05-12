@@ -59,7 +59,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **apiReviewsCarCarIdPost**
-> string apiReviewsCarCarIdPost(leaveReviewRequest)
+> ReviewDto apiReviewsCarCarIdPost(leaveReviewRequest)
 
 
 ### Example
@@ -93,7 +93,7 @@ const { status, data } = await apiInstance.apiReviewsCarCarIdPost(
 
 ### Return type
 
-**string**
+**ReviewDto**
 
 ### Authorization
 

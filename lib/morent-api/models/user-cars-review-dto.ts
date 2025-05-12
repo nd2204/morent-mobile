@@ -13,6 +13,12 @@
  */
 
 
+// May contain unused imports in some cases
+// @ts-ignore
+import type { CarDto } from './car-dto';
+// May contain unused imports in some cases
+// @ts-ignore
+import type { RentalDto } from './rental-dto';
 
 /**
  * 
@@ -22,9 +28,39 @@
 export interface UserCarsReviewDto {
     /**
      * 
+     * @type {RentalDto}
+     * @memberof UserCarsReviewDto
+     */
+    'rental': RentalDto;
+    /**
+     * 
+     * @type {CarDto}
+     * @memberof UserCarsReviewDto
+     */
+    'car': CarDto;
+    /**
+     * 
      * @type {string}
      * @memberof UserCarsReviewDto
      */
-    'carImageUrl'?: string;
+    'carImageUrl': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof UserCarsReviewDto
+     */
+    'rating': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof UserCarsReviewDto
+     */
+    'comment': string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof UserCarsReviewDto
+     */
+    'isReviewed': boolean;
 }
 

@@ -1,14 +1,18 @@
 import * as React from 'react';
-import { View, TextInput } from 'react-native';
+import { View, TextInput, Pressable } from 'react-native';
 import { Text } from '~/components/ui/text';
 import { Button } from '~/components/ui/button';
 import { Input } from '~/components/ui/input';
-import { Avatar, AvatarFallback, AvatarImage } from '~/components/ui/avatar';
+import { Avatar, AvatarFallback, AvatarImage, getInitials } from '~/components/ui/avatar';
 import { Menu, Search, Filter, LogIn } from 'lucide-react-native';
 import { iconWithClassName } from '~/lib/icons/iconWithClassName';
-import { cn } from '~/lib/utils';
 import { ThemeToggle } from './ThemeToggle';
-import { useRouter } from 'expo-router';
+import { useAuth } from '~/hooks/useAuth';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
+import { RootStackParamList } from '~/types/RootStackParamList';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { TabParamList } from '~/types/TabParamList';
 
 // Register icons with NativeWind
 [Menu, Search, Filter, LogIn].forEach(iconWithClassName);
@@ -20,25 +24,28 @@ interface HeaderProps {
   onPressMenu?: () => void;
   onPressAvatar?: () => void;
   onSearch?: (query: string) => void;
+  onPressSearch?: () => void
   onFilterPress?: () => void;
   isAuthenticated?: boolean;
 }
 
 export function Header({
-  showMenu = true,
+  showMenu = false,
   showSearchBar = false,
   searchBarShouldRedirect = false,
   onPressMenu,
   onPressAvatar,
   onSearch,
+  onPressSearch,
   onFilterPress,
-  isAuthenticated = false,
 }: HeaderProps) {
-  const router = useRouter();
+  const { navigate: navigateTab } = useNavigation<NativeStackNavigationProp<TabParamList>>();
+  const { navigate: navigateStack } = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const { isAuthenticated, user } = useAuth();
   const [searchQuery, setSearchQuery] = React.useState('');
 
   return (
-    <View className="bg-background border-b border-border">
+    <SafeAreaView className="bg-background border-b border-border">
       {/* First Row: Menu, Brand, Avatar, Theme Toggle */}
       <View className="flex-row items-center justify-between px-4 py-3">
         <View className="flex-row items-center gap-3">
@@ -52,68 +59,49 @@ export function Header({
               <Menu size={24} className="text-foreground" />
             </Button>
           )}
-          <Text className="text-xl font-bold text-primary">MORENT</Text>
+          {!showSearchBar && (
+
+            <Button
+              variant="ghost"
+              size="icon"
+              className="rounded-full"
+              onPress={onPressSearch}
+            >
+              <Search size={20} className="text-foreground" />
+            </Button>
+          )}
+          <Text className="text-[1.5rem] font-black text-primary">MORENT</Text>
         </View>
 
         <View className="flex-row items-center gap-2">
           <ThemeToggle />
           {isAuthenticated ? (
-            <Button
-              variant="ghost"
-              className="p-0 rounded-full"
-              onPress={() => router.push('/profile')}
+            <Pressable
+              className="pr-2 rounded-full"
+              onPress={() => navigateTab('ProfileScreen', {userId: user?.userId! })}
             >
               <Avatar className="h-9 w-9" alt="user avatar">
                 <AvatarImage
-                  source={{ uri: "https://github.com/shadcn.png" }}
+                  source={{ uri: user?.imageUrl }}
                   className="bg-muted"
                 />
                 <AvatarFallback>
-                  <Text className="text-xs">CN</Text>
+                  <Text className="text-xs">{getInitials(user?.name)}</Text>
                 </AvatarFallback>
               </Avatar>
-            </Button>
+            </Pressable>
           ) : (
             <Button
               variant="ghost"
               size="icon"
               className="rounded-full"
-              onPress={() => router.push('/login')}
+              onPress={() => navigateStack('AuthScreen')}
             >
               <LogIn size={24} className="text-foreground" />
             </Button>
           )}
         </View>
       </View>
-
-      {/* Second Row: Search Bar */}
-      {showSearchBar && (
-        <View className="px-4 pb-6">
-          <View className="flex-row items-center bg-muted rounded-md">
-            <View className="px-3">
-              <Search size={20} className="text-muted-foreground" />
-            </View>
-            <Input
-              value={searchQuery}
-              onChangeText={(text) => {
-                setSearchQuery(text);
-                onSearch?.(text);
-              }}
-              placeholder="Search something here"
-              placeholderTextColor="gray"
-              className="flex-1 text-base text-foreground bg-transparent border-0 rounded-none"
-            />
-            <Button
-              variant="ghost"
-              size="icon"
-              onPress={onFilterPress}
-              className="h-12 aspect-square rounded-r-md border-l border-border bg-transparent"
-            >
-              <Filter size={20} className="text-muted-foreground" />
-            </Button>
-          </View>
-        </View>
-      )}
-    </View>
+    </SafeAreaView>
   );
 }

@@ -42,4 +42,12 @@ const AvatarFallback = React.forwardRef<AvatarPrimitive.FallbackRef, AvatarPrimi
 );
 AvatarFallback.displayName = AvatarPrimitiveFallback.displayName;
 
-export { Avatar, AvatarFallback, AvatarImage };
+function getInitials(name: string | undefined = ""): string {
+  return name
+    .split(' ')
+    .filter(part => part.length > 0)
+    .map(part => part[0].toUpperCase())
+    .join('');
+}
+
+export { Avatar, AvatarFallback, AvatarImage, getInitials };
