@@ -14,8 +14,23 @@
 
 
 
-export * from './apis/auth-api';
-export * from './apis/car-api';
-export * from './apis/payment-api';
-export * from './apis/user-api';
+/**
+ * 
+ * @export
+ * @interface GetNearCarsLocationQuery
+ */
+export interface GetNearCarsLocationQuery {
+    /**
+     * 
+     * @type {number}
+     * @memberof GetNearCarsLocationQuery
+     */
+    'longitude': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof GetNearCarsLocationQuery
+     */
+    'latitude': number;
+}
 

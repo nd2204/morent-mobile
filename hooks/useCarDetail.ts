@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
-import { carApi } from "~/lib/api-client";
+import { createApiClients } from "~/lib/api-client";
 import { CarDetailDto } from "~/lib/morent-api";
+
+const { carApi } = createApiClients();
 
 export function useCarDetail(id: string) {
   const [car, setCar] = useState<CarDetailDto | undefined>(undefined);
@@ -10,7 +12,7 @@ export function useCarDetail(id: string) {
   const fetchCar = async () => {
     try {
       setLoading(true);
-      const response = await carApi.apiCarsIdGet({ id: id });
+      const response = await carApi.apiCarsCarIdGet({ carId: id });
       setCar(response.data);
     } catch (err) {
       console.error('❌ API Error:', err);

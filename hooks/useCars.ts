@@ -1,6 +1,8 @@
-import { useState, useEffect, useMemo } from 'react';
-import { carApi } from '~/lib/api-client';
+import { useState, useEffect, useMemo, useCallback } from 'react';
+import { createApiClients } from '~/lib/api-client';
 import type { CarDto } from 'lib/morent-api';
+
+const { carApi } = createApiClients();
 
 export interface UseCarsOptions {
     brand?: string;
@@ -18,65 +20,120 @@ export interface UseCarsOptions {
     pageSize?: number;
 }
 
-export function useCars(options: UseCarsOptions = {}) {
-    const [_cars, setCars] = useState<CarDto[]>([]);
-    const [_loading, setLoading] = useState(true);
-    const [_options, setOptions] = useState<UseCarsOptions>(options)
-    const [_error, setError] = useState<Error | null>(null);
+export interface UseCarsResult {
+    cars: CarDto[];
+    loading: boolean;
+    error: Error | null;
+    setOptions: (options: UseCarsOptions) => void;
+    loadMore: () => void;
+    hasMore: boolean;
+}
 
+export function useCars(options: UseCarsOptions = {}): UseCarsResult {
+    const [cars, setCars] = useState<CarDto[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [options_, setOptions_] = useState<UseCarsOptions>({
+        ...options,
+        page: options.page || 1,
+        pageSize: options.pageSize || 10
+    });
+    const [error, setError] = useState<Error | null>(null);
+    const [hasMore, setHasMore] = useState(true);
+    
     // Memoize the options to prevent unnecessary re-renders
     const memoizedOptions = useMemo(() => ({
-        carFilterBrand: _options.brand,
-        carFilterType: _options.type,
-        carFilterCapacity: _options.capacity,
-        carFilterFuelType: _options.fuelType,
-        carFilterGearbox: _options.gearbox,
-        carFilterMinPrice: _options.minPrice,
-        carFilterMaxPrice: _options.maxPrice,
-        carFilterRating: _options.rating,
-        carFilterLocation: _options.location,
-        carFilterSearch: _options.search,
-        carFilterSort: _options.sort,
-        pagedQueryPage: _options.page,
-        pagedQueryPageSize: _options.pageSize,
+        carFilterBrand: options_.brand,
+        carFilterType: options_.type,
+        carFilterCapacity: options_.capacity,
+        carFilterFuelType: options_.fuelType,
+        carFilterGearbox: options_.gearbox,
+        carFilterMinPrice: options_.minPrice,
+        carFilterMaxPrice: options_.maxPrice,
+        carFilterRating: options_.rating,
+        carFilterLocation: options_.location,
+        carFilterSearch: options_.search,
+        carFilterSort: options_.sort,
+        pagedQueryPage: options_.page,
+        pagedQueryPageSize: options_.pageSize,
     }), [
-        _options.brand,
-        _options.type,
-        _options.capacity,
-        _options.fuelType,
-        _options.gearbox,
-        _options.minPrice,
-        _options.maxPrice,
-        _options.rating,
-        _options.location,
-        _options.search,
-        _options.sort,
-        _options.page,
-        _options.pageSize,
+        options_.brand,
+        options_.type,
+        options_.capacity,
+        options_.fuelType,
+        options_.gearbox,
+        options_.minPrice,
+        options_.maxPrice,
+        options_.rating,
+        options_.location,
+        options_.search,
+        options_.sort,
+        options_.page,
+        options_.pageSize,
     ]);
 
-    const fetchCars = async () => {
+    const fetchCars = useCallback(async (isLoadingMore = false) => {
         try {
-            // console.log('🚀 Fetching cars with options:', JSON.stringify(memoizedOptions, null, 2));
-            // console.log('🌐 Attempting to connect to:', API_URL);
-            setLoading(true);
+            if (!isLoadingMore) {
+                setLoading(true);
+            }
             
             const response = await carApi.apiCarsGet(memoizedOptions);
-            // console.log('✅ API Response Status:', response.status);
-            // console.log('📦 Response Data:', JSON.stringify(response.data, null, 2));
             
-            setCars(response.data);
+            const newCars = response.data;
+            
+            if (isLoadingMore) {
+                setCars(prevCars => [...prevCars, ...newCars]);
+            } else {
+                setCars(newCars);
+            }
+            
+            // If we received fewer items than requested, we've reached the end
+            setHasMore(newCars.length >= (options_.pageSize || 10));
         } catch (err) {
             console.error('❌ API Error:', err);
             setError(err instanceof Error ? err : new Error('Failed to fetch cars'));
         } finally {
             setLoading(false);
         }
-    };
-
-    useEffect(() => {
-        fetchCars();
     }, [memoizedOptions]);
 
-    return { cars: _cars, loading: _loading, error: _error, setOptions };
-} 
+    // Initial fetch and when filters change, reset and fetch from page 1
+    useEffect(() => {
+        // When options change (except for page), we want to reset to page 1
+        const isChangingPage = options_.page && options_.page > 1;
+        
+        if (!isChangingPage) {
+            fetchCars(false);
+        }
+    }, [fetchCars, options_.page]);
+
+    // Function to load more data
+    const loadMore = useCallback(() => {
+        if (loading || !hasMore) return;
+        
+        setOptions_(prev => ({
+            ...prev,
+            page: (prev.page || 1) + 1
+        }));
+        
+        fetchCars(true);
+    }, [loading, hasMore, fetchCars]);
+
+    // Function to set new options (resets pagination)
+    const setOptions = useCallback((newOptions: UseCarsOptions) => {
+        setOptions_({
+            ...newOptions,
+            page: 1 // Reset to page 1 when filters change
+        });
+        setHasMore(true); // Reset hasMore state
+    }, []);
+
+    return { 
+        cars, 
+        loading, 
+        error, 
+        setOptions,
+        loadMore,
+        hasMore
+    };
+}

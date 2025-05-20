@@ -8,8 +8,8 @@ Name | Type | Description | Notes
 **carId** | **string** |  | [default to undefined]
 **pickupDate** | **string** |  | [default to undefined]
 **dropoffDate** | **string** |  | [default to undefined]
-**pickupLocation** | [**CarLocationDto**](CarLocationDto.md) |  | [default to undefined]
-**dropoffLocation** | [**CarLocationDto**](CarLocationDto.md) |  | [default to undefined]
+**pickupLocation** | [**LocationDto**](LocationDto.md) |  | [default to undefined]
+**dropoffLocation** | [**LocationDto**](LocationDto.md) |  | [default to undefined]
 
 ## Example
 

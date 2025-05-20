@@ -1,6 +1,8 @@
 import { useState } from 'react';
-import { reviewApi } from '~/lib/api-client';
 import type { LeaveReviewRequest, ReviewDto } from 'lib/morent-api';
+import { createApiClients } from '~/lib/api-client';
+
+const { carApi, userApi } = createApiClients();
 
 export function useReviews(carId?: string) {
     const [reviews, setReviews] = useState<ReviewDto[]>([]);
@@ -11,7 +13,7 @@ export function useReviews(carId?: string) {
         if (!carId) return;
         try {
             setLoading(true);
-            const response = await reviewApi.apiReviewsCarCarIdGet({ carId });
+            const response = await carApi.apiCarsCarIdReviewsGet({ carId: carId });
             setReviews(response.data);
         } catch (err) {
             setError(err instanceof Error ? err : new Error('Failed to fetch reviews'));
@@ -20,11 +22,10 @@ export function useReviews(carId?: string) {
         }
     };
 
-    const leaveReview = async (carId: string, review: LeaveReviewRequest) => {
+    const leaveReview = async (review: LeaveReviewRequest) => {
         try {
             setLoading(true);
-            await reviewApi.apiReviewsCarCarIdPost({
-                carId: carId,
+            await userApi.apiUsersMeReviewsPost({
                 leaveReviewRequest: review,
             });
             await fetchReviews(); // Refresh reviews after posting

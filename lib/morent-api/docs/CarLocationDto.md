@@ -5,9 +5,14 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**city** | **string** |  | [default to undefined]
-**address** | **string** |  | [default to undefined]
-**country** | **string** |  | [default to undefined]
+**carId** | **string** |  | [default to undefined]
+**title** | **string** |  | [default to undefined]
+**imageUrl** | **string** |  | [default to undefined]
+**pricePerDay** | **number** |  | [default to undefined]
+**currency** | **string** |  | [default to undefined]
+**carModel** | [**CarModelDto**](CarModelDto.md) |  | [default to undefined]
+**longitude** | **number** |  | [default to undefined]
+**latitude** | **number** |  | [default to undefined]
 
 ## Example
 
@@ -15,9 +20,14 @@ Name | Type | Description | Notes
 import { CarLocationDto } from './api';
 
 const instance: CarLocationDto = {
-    city,
-    address,
-    country,
+    carId,
+    title,
+    imageUrl,
+    pricePerDay,
+    currency,
+    carModel,
+    longitude,
+    latitude,
 };
 ```
 

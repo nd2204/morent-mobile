@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, ScrollView, Text, TouchableOpacity } from 'react-native';
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
-import type { CarLocationDto } from '~/lib/morent-api';
+import type { LocationDto } from '~/lib/morent-api';
 import { Button } from '~/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '~/components/ui/card';
 import { RootStackParamList } from '~/types/RootStackParamList';
@@ -13,7 +13,7 @@ type RentalDetailsRouteProp = RouteProp<RootStackParamList, 'RentalDetailScreen'
 export default function RentalDetailsScreen() {
   const navigation = useNavigation();
   const { rentalDto } = useRoute<RentalDetailsRouteProp>().params;
-  
+
   const formatDate = (iso: string) =>
     new Date(iso).toLocaleDateString('en-US', {
       year: 'numeric',
@@ -47,7 +47,7 @@ export default function RentalDetailsScreen() {
     location,
     isPickup = false,
   }: {
-    location: CarLocationDto;
+    location: LocationDto;
     isPickup?: boolean;
   }) => (
     <View className="flex-row items-start mb-6">
@@ -58,8 +58,8 @@ export default function RentalDetailsScreen() {
         <Text className="text-sm text-gray-500 mb-1">
           {isPickup ? 'Pickup Location' : 'Drop-off Location'}
         </Text>
-        <Text className="text-base font-medium mb-1">{location.address}</Text>
-        <Text className="text-sm text-gray-500">{`${location.city}, ${location.country}`}</Text>
+        {/* <Text className="text-base font-medium mb-1">{location.address}</Text>
+        <Text className="text-sm text-gray-500">{`${location.city}, ${location.country}`}</Text> */}
       </View>
     </View>
   );

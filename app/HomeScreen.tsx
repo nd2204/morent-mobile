@@ -1,11 +1,17 @@
 import * as React from 'react';
-import { SectionList, Text, View } from 'react-native';
+import { SectionList, Text, TouchableOpacity, View } from 'react-native';
 import { Hero } from '~/components/Hero';
 import { CarList } from '~/components/CarList';
 import { useCars, UseCarsOptions } from '~/hooks/useCars';
 import Map from '~/components/Map';
 import { useLocationStore } from '~/store';
 import * as Location from 'expo-location'
+import useLocation from '~/services/LocationService';
+import { Card, CardContent, CardTitle } from '~/components/ui/card';
+import { LocateIcon, MapPin } from 'lucide-react-native';
+import { useNavigation } from '@react-navigation/native';
+import { NavigationProps } from '~/types/NavigationProps';
+import { Button }  from '~/components/ui/button'
 
 export default function HomeScreen() {
   const [favorites, setFavorites] = React.useState<string[]>([]);
@@ -13,16 +19,14 @@ export default function HomeScreen() {
 
   const { setUserLocation, setDestinationLocation } = useLocationStore();
   const [hasPermission, setHasPermission ] = React.useState(false);
+  const { getCurrentLocation } = useLocation();
+  const { navigate } = useNavigation<NavigationProps>();
 
   React.useEffect(() => {
     const requestLocation = async() => {
-      let { status } = await Location.getForegroundPermissionsAsync()
-      if (status !== 'granted') {
-        setHasPermission(false);
-        return;
-      }
+      let location = await getCurrentLocation();
+      if (location == null) return;
 
-      let location = await Location.getCurrentPositionAsync();
       const address = await Location.reverseGeocodeAsync({
         latitude: location.coords?.latitude!,
         longitude: location.coords?.longitude!,
@@ -33,6 +37,8 @@ export default function HomeScreen() {
         longitude: location.coords.longitude,
         address: `${address[0].name}, ${address[0].region}`
       })
+
+      console.log(JSON.stringify(location), address)
     };
 
     requestLocation();
@@ -67,14 +73,18 @@ export default function HomeScreen() {
         return <Hero />;
       case 'location':
         return (
-          <>
-            <View className={"flex-row justify-between items-center mb-4 "}>
-              <Text className="text-2xl font-black text-primary">Your current location</Text>
+          <Card className='rounded-2xl overflow-hidden'>
+            <View className='flex-row justify-start items-center my-4 ml-4'>
+              <MapPin />
+              <Text className='text-xl font-semibold'> Your current location</Text>
             </View>
-            <View className="h-[300px] overflow-hidden rounded-xl">
+            <CardContent className="h-[300px] border-top">
               <Map />
-            </View>
-          </>
+            </CardContent>
+            <Button variant="secondary" onPress={() => navigate("SelectNearCarScreen")}>
+              <Text>See all cars near you</Text>
+            </Button>
+          </Card>
         )
       case 'popular':
         return (
@@ -82,6 +92,7 @@ export default function HomeScreen() {
             title="Popular Cars"
             layout="horizontal"
             options={item}
+            identifier="popular"
             favorites={favorites}
             onToggleFavorite={toggleFavorite}
             containerClassName="py-4"
@@ -91,8 +102,9 @@ export default function HomeScreen() {
         return (
           <CarList
             title="Recommended Cars"
-            layout="vertical"
+            layout="horizontal"
             options={item}
+            identifier="recommended"
             favorites={favorites}
             onToggleFavorite={toggleFavorite}
             containerClassName="py-4 mb-4"

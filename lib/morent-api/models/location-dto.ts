@@ -13,45 +13,42 @@
  */
 
 
-// May contain unused imports in some cases
-// @ts-ignore
-import type { LocationDto } from './location-dto';
 
 /**
  * 
  * @export
- * @interface CreateRentalRequest
+ * @interface LocationDto
  */
-export interface CreateRentalRequest {
+export interface LocationDto {
     /**
      * 
      * @type {string}
-     * @memberof CreateRentalRequest
+     * @memberof LocationDto
      */
-    'carId': string;
+    'city'?: string | null;
     /**
      * 
      * @type {string}
-     * @memberof CreateRentalRequest
+     * @memberof LocationDto
      */
-    'pickupDate': string;
+    'address'?: string | null;
     /**
      * 
      * @type {string}
-     * @memberof CreateRentalRequest
+     * @memberof LocationDto
      */
-    'dropoffDate': string;
+    'country'?: string | null;
     /**
      * 
-     * @type {LocationDto}
-     * @memberof CreateRentalRequest
+     * @type {number}
+     * @memberof LocationDto
      */
-    'pickupLocation': LocationDto;
+    'longitude': number;
     /**
      * 
-     * @type {LocationDto}
-     * @memberof CreateRentalRequest
+     * @type {number}
+     * @memberof LocationDto
      */
-    'dropoffLocation': LocationDto;
+    'latitude': number;
 }
 

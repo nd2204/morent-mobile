@@ -17,7 +17,7 @@ import { RootStackParamList } from '~/types/RootStackParamList';
 
 export interface CarCardProps {
   car: CarDto;
-  layout?: 'vertical' | 'horizontal';
+  layout?: 'vertical' | 'horizontal' | 'grid';
   isFavorite: boolean;
   onPressRent?: () => void;
   onToggleFavorite?: () => void;
@@ -32,9 +32,10 @@ export function CarCard({
 }: CarCardProps) {
   const { navigate } = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const isHorizontal = layout === 'horizontal';
+  const isGrid = layout === 'grid';
 
   const handlePressRent = () => {
-    navigate("DetailScreen", { carId: car.id });
+    onPressRent && onPressRent();
   };
 
   const renderTitle = () => {
@@ -56,7 +57,8 @@ export function CarCard({
     const imageUrl = car.images[0]?.url;
     return (
       <View className={cn(
-        isHorizontal ? 'w-[140px] h-full flex-1 px-4' : 'h-[160px] w-full'
+        isHorizontal ? 'w-[140px] h-full flex-1 px-4' : 'h-[160px] w-full',
+        isGrid && 'py-4'
       )}>
         <Image
           source={typeof imageUrl === 'string' ? { uri: imageUrl } : imageUrl}

@@ -18,10 +18,10 @@
 import type { CarImageDto } from './car-image-dto';
 // May contain unused imports in some cases
 // @ts-ignore
-import type { CarLocationDto } from './car-location-dto';
+import type { CarModelDto } from './car-model-dto';
 // May contain unused imports in some cases
 // @ts-ignore
-import type { CarModelDto } from './car-model-dto';
+import type { LocationDto } from './location-dto';
 // May contain unused imports in some cases
 // @ts-ignore
 import type { ReviewDto } from './review-dto';
@@ -46,10 +46,10 @@ export interface CarDetailDto {
     'reviews': Array<ReviewDto>;
     /**
      * 
-     * @type {CarLocationDto}
+     * @type {LocationDto}
      * @memberof CarDetailDto
      */
-    'location': CarLocationDto;
+    'location': LocationDto;
     /**
      * 
      * @type {string}

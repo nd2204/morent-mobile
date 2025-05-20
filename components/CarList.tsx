@@ -1,30 +1,30 @@
 import * as React from 'react';
-import { FlatList, Pressable, SafeAreaView, View } from 'react-native';
+import { FlatList, View, Dimensions } from 'react-native';
 import { Text } from '~/components/ui/text';
-import { Link } from 'expo-router';
-import { CarCard, CarCardProps } from './CarCard';
+import { Button } from './ui/button';
+import { CarCard } from './CarCard';
 import { cn } from '~/lib/utils';
 import { CarDto } from '~/lib/morent-api';
-import { Button } from './ui/button';
 import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { TabParamList } from '~/types/TabParamList';
-import { RootStackParamList } from '~/types/RootStackParamList';
 import { NavigationProps } from '~/types/NavigationProps';
 import { useCars, UseCarsOptions } from '~/hooks/useCars';
 import { Loading } from './Loading';
+import { v4 as uuidv4 } from 'uuid'; // Add uuid for unique keys
+
+const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
 interface CarListProps {
   title?: string;
   options?: UseCarsOptions;
-  layout?: 'vertical' | 'horizontal';
+  layout?: 'vertical' | 'horizontal' | 'grid';
+  identifier?: string;
   favorites: string[];
   onToggleFavorite: (id: string) => void;
   showViewAll?: boolean;
   viewAllLink?: `/${string}`;
   containerClassName?: string;
-  listHeaderComponent?: any
-  listFooterComponent?: any
+  listHeaderComponent?: any;
+  listFooterComponent?: any;
 }
 
 const DefaultOptions: UseCarsOptions = {
@@ -36,42 +36,70 @@ export function CarList({
   title,
   options = DefaultOptions,
   layout = 'horizontal',
+  identifier = '',
   favorites,
   onToggleFavorite,
   showViewAll = true,
   containerClassName,
   listHeaderComponent = () => <View></View>,
-  listFooterComponent = () => <View></View>
+  listFooterComponent = () => <View></View>,
 }: CarListProps) {
   const isHorizontal = layout === 'horizontal';
-  const { navigate } = useNavigation<NavigationProps>()
+  const isGrid = layout === 'grid';
+  const { navigate } = useNavigation<NavigationProps>();
 
-  const [currentPage, setCurrentPage] = React.useState(options.page! || DefaultOptions.page!);
   const [allCars, setAllCars] = React.useState<CarDto[]>([]);
-  const [hasMore, setHasMore] = React.useState(true);
   const [isLoadingMore, setIsLoadingMore] = React.useState(false);
+  const flatListRef = React.useRef<FlatList>(null);
+  const instanceId = React.useMemo(() => identifier || uuidv4(), [identifier]); // Unique ID for this component instance
 
-  const currentOptions = React.useMemo(() => ({
+  const { cars, loading, error, setOptions, loadMore, hasMore } = useCars({
     ...options,
-    page: currentPage,
+    page: 1,
     pageSize: options.pageSize || DefaultOptions.pageSize,
-  }), [options, currentPage]);
+  });
 
-  const { cars, loading, setOptions } = useCars();
-
-    // Initial load and when filters change
   React.useEffect(() => {
-    // Reset state when options (filter) changes from parent
-    setCurrentPage(1);
-    setAllCars([]);
-    setHasMore(true);
-    
+    if (!loading) {
+      if (cars.length === 0 && allCars.length === 0) {
+        console.log('No cars to display');
+        return;
+      }
+
+      const existingIds = new Set(allCars.map(car => car.id));
+      const uniqueNewCars = cars.filter(car => !existingIds.has(car.id));
+
+      if (uniqueNewCars.length !== cars.length) {
+        console.warn(`Duplicate car IDs detected: ${cars.length - uniqueNewCars.length} duplicates`);
+      }
+
+      if (allCars.length === 0 || isLoadingMore === false) {
+        console.log(`Initial load or filter change: setting ${uniqueNewCars.length} cars`);
+        setAllCars(uniqueNewCars);
+        setIsLoadingMore(false);
+
+        if (flatListRef.current && !isHorizontal) {
+          flatListRef.current.scrollToOffset({ offset: 0, animated: true });
+        }
+      } else if (uniqueNewCars.length > 0) {
+        console.log(`Appending ${uniqueNewCars.length} new cars`);
+        setAllCars(prevCars => [...prevCars, ...uniqueNewCars]);
+        setIsLoadingMore(false);
+      } else {
+        setIsLoadingMore(false);
+      }
+    }
+  }, [cars, loading]);
+
+  React.useEffect(() => {
+    console.log('Filter options changed, resetting cars');
     setOptions({
       ...options,
-      page: 1
+      page: 1,
     });
+    setAllCars([]);
+    setIsLoadingMore(false);
   }, [
-    // Only include filter properties, not pagination properties
     options.brand,
     options.type,
     options.capacity,
@@ -83,40 +111,14 @@ export function CarList({
     options.location,
     options.search,
     options.sort,
-    options.pageSize
-    // Don't include options.page here as it would cause an infinite loop
+    options.pageSize,
   ]);
 
-  // Process fetched data
-  React.useEffect(() => {
-    if (!loading) {
-      if (cars.length === 0) {
-        // No more cars to load
-        setHasMore(false);
-      } else if (currentPage === 1) {
-        // First page, replace all cars
-        setAllCars(cars);
-      } else {
-        // Append new cars, checking for duplicates by ID
-        const newCarIds = new Set(cars.map(car => car.id));
-        const uniqueExistingCars = allCars.filter(car => !newCarIds.has(car.id));
-        setAllCars([...uniqueExistingCars, ...cars]);
-      }
-      setIsLoadingMore(false);
-    }
-  }, [cars, loading]);
-
   const handleLoadMore = () => {
-    if (!loading && !isLoadingMore && hasMore) {
+    if (!loading && hasMore && !isLoadingMore) {
+      console.log('Loading more cars');
       setIsLoadingMore(true);
-      const nextPage = currentPage + 1;
-      setCurrentPage(nextPage);
-
-      // Update options with new page
-      setOptions(prevOptions => ({
-        ...prevOptions,
-        page: nextPage
-      }));
+      loadMore();
     }
   };
 
@@ -124,7 +126,7 @@ export function CarList({
     if (!title) return null;
 
     return (
-      <View className={"flex-row justify-between items-center mb-4 "}>
+      <View className="flex-row justify-between items-center mb-4">
         <Text className="text-xl font-black text-primary">{title}</Text>
         {showViewAll && (
           <Button variant="secondary" onPress={() => navigate("CategoryScreen")}>
@@ -135,55 +137,73 @@ export function CarList({
     );
   };
 
-
   const renderFooter = () => {
     if (!isLoadingMore) return listFooterComponent;
-    
+
     return (
-      <View className="py-4">
+      <View className="py-4 w-full items-center justify-center">
         <Loading size="small" />
       </View>
     );
-  }; 
-
-  if (loading && allCars.length === 0) {
-    return (
-      <SafeAreaView className="flex-1 bg-background">
-        <View className="flex-1 items-center justify-center">
-          <Loading />
-        </View>
-      </SafeAreaView>
-    );
-  }
+  };
 
   return (
     <View className={containerClassName}>
       {renderHeader()}
-      <FlatList
-        horizontal={isHorizontal}
-        showsHorizontalScrollIndicator={false}
-        showsVerticalScrollIndicator={false}
-        data={allCars}
-        keyExtractor={item => item.id}
-        contentContainerClassName={cn(
-          isHorizontal ? "gap-x-4" : "gap-y-4 mb-20 pb-20",
-          isHorizontal ? "px-4" : "px-0"
-        )}
-        renderItem={({ item }) => (
-          <View className={isHorizontal ? "" : "py-2"}>
-            <CarCard
-              car={item}
-              layout={isHorizontal ? "vertical" : "horizontal"}
-              isFavorite={favorites.includes(item.id)}
-              onToggleFavorite={() => onToggleFavorite(item.id)}
-            />
-          </View>
-        )}
-        onEndReached={handleLoadMore}
-        onEndReachedThreshold={0.8}
-        ListHeaderComponent={listHeaderComponent}
-        ListFooterComponent={renderFooter()}
-      />
+      {loading && !error ? (
+        <View className="flex-1 items-center justify-center">
+          <Loading />
+        </View>
+      ) : (
+        <FlatList
+          ref={flatListRef}
+          horizontal={isHorizontal}
+          numColumns={isGrid ? 2 : 1}
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
+          data={allCars}
+          extraData={allCars.length}
+          keyExtractor={(item, index) => `${instanceId}_${item.id}_${index}`}
+          contentContainerClassName={cn(
+            isHorizontal ? "gap-x-4 px-4" : isGrid ? "gap-4 px-4" : "gap-y-4 px-0 pb-40",
+          )}
+          columnWrapperClassName={isGrid ? "gap-x-4" : undefined}
+          renderItem={({ item }) => (
+            <View
+              className={cn(
+                isHorizontal ? "" : isGrid ? "flex-1" : "py-2",
+                isGrid && "max-w-[50%]",
+              )}
+              style={isGrid ? { width: (SCREEN_WIDTH - 40) / 2 } : undefined}
+            >
+              <CarCard
+                car={item}
+                layout={isHorizontal ? "vertical" : isGrid ? "grid" : "horizontal"}
+                isFavorite={favorites.includes(item.id)}
+                onToggleFavorite={() => onToggleFavorite(item.id)}
+                onPressRent={() => navigate("DetailScreen", { carId: item.id })}
+              />
+            </View>
+          )}
+          onEndReached={handleLoadMore}
+          onEndReachedThreshold={1}
+          ListHeaderComponent={listHeaderComponent}
+          ListFooterComponent={renderFooter()}
+          key={isGrid ? 'grid' : isHorizontal ? 'horizontal' : 'vertical'}
+        />
+      )}
+
+      {error && (
+        <View className="p-4 bg-red-50 rounded-md my-2">
+          <Text className="text-red-600">Error loading cars. Please try again.</Text>
+        </View>
+      )}
+
+      {!loading && allCars.length === 0 && (
+        <View className="p-4 items-center justify-center">
+          <Text className="text-gray-500">No cars found matching your criteria.</Text>
+        </View>
+      )}
     </View>
   );
 }

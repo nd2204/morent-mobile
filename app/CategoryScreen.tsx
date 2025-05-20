@@ -43,7 +43,7 @@ export default function CategoryScreen() {
     const category = CATEGORIES.find(c => c!.value === value);
     if (category) {
       setSelectedCategory(category);
-      setOptions(options => options = {
+      setOptions({
         ...options,
         type: category.value
       });
@@ -54,7 +54,7 @@ export default function CategoryScreen() {
     const sortOption = SORT_OPTIONS.find(o => o!.value === value);
     if (sortOption) {
       setSortBy(sortOption);
-      setOptions(options => options = {
+      setOptions({
         ...options,
         sort: sortOption.value
       });
@@ -63,7 +63,7 @@ export default function CategoryScreen() {
 
   const handleSearchChange = React.useCallback((value: any) => {
     setSearchQuery(value);
-    setOptions(options => options = {
+    setOptions({
       ...options,
       search: value
     });
@@ -100,11 +100,7 @@ export default function CategoryScreen() {
                   value={category!.value}
                   label={category!.label}
                   onPress={() => handleCategoryChange(category!.value)}
-                >
-                  <Text>
-                    {category!.label}
-                  </Text>
-                </SelectItem>
+                />
               ))}
             </SelectContent>
           </Select>
@@ -121,11 +117,7 @@ export default function CategoryScreen() {
                   value={option!.value}
                   label={option!.label}
                   onPress={() => handleSortChange(option!.value)}
-                >
-                  <Text>
-                    {option!.label}
-                  </Text>
-                </SelectItem>
+                />
               ))}
             </SelectContent>
           </Select>
@@ -133,13 +125,15 @@ export default function CategoryScreen() {
       </View>
 
       (
+
       <CarList
-        layout="vertical"
+        layout="grid"
         options={options}
         favorites={favorites}
         onToggleFavorite={toggleFavorite}
+        identifier="category"
         showViewAll={false}
-        containerClassName="px-4 mb-20 h-full"
+        containerClassName="flex-1 px-4 mt-4"
       />
       )
     </View>

@@ -28,6 +28,8 @@ import type { CarDto } from '../models';
 // @ts-ignore
 import type { CarImageDto } from '../models';
 // @ts-ignore
+import type { CarLocationDto } from '../models';
+// @ts-ignore
 import type { ProblemDetails } from '../models';
 // @ts-ignore
 import type { ReviewDto } from '../models';
@@ -43,10 +45,76 @@ export const CarApiAxiosParamCreator = function (configuration?: Configuration) 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
+        apiCarsCarIdGet: async (carId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'carId' is not null or undefined
+            assertParamExists('apiCarsCarIdGet', 'carId', carId)
+            const localVarPath = `/api/cars/{carId}`
+                .replace(`{${"carId"}}`, encodeURIComponent(String(carId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} carId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
         apiCarsCarIdImagesGet: async (carId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'carId' is not null or undefined
             assertParamExists('apiCarsCarIdImagesGet', 'carId', carId)
             const localVarPath = `/api/cars/{carId}/images`
+                .replace(`{${"carId"}}`, encodeURIComponent(String(carId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} carId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiCarsCarIdReviewsGet: async (carId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'carId' is not null or undefined
+            assertParamExists('apiCarsCarIdReviewsGet', 'carId', carId)
+            const localVarPath = `/api/cars/{carId}/reviews`
                 .replace(`{${"carId"}}`, encodeURIComponent(String(carId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -166,15 +234,14 @@ export const CarApiAxiosParamCreator = function (configuration?: Configuration) 
         },
         /**
          * 
-         * @param {string} id 
+         * @param {number} [longitude] 
+         * @param {number} [latitude] 
+         * @param {number} [maxDistanceKm] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiCarsIdGet: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('apiCarsIdGet', 'id', id)
-            const localVarPath = `/api/cars/{id}`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+        apiCarsNearGet: async (longitude?: number, latitude?: number, maxDistanceKm?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/cars/near`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -186,42 +253,16 @@ export const CarApiAxiosParamCreator = function (configuration?: Configuration) 
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {string} id 
-         * @param {string} [carId] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        apiCarsIdReviewsGet: async (id: string, carId?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('apiCarsIdReviewsGet', 'id', id)
-            const localVarPath = `/api/cars/{id}/reviews`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
+            if (longitude !== undefined) {
+                localVarQueryParameter['Longitude'] = longitude;
             }
 
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
+            if (latitude !== undefined) {
+                localVarQueryParameter['Latitude'] = latitude;
+            }
 
-            if (carId !== undefined) {
-                localVarQueryParameter['carId'] = carId;
+            if (maxDistanceKm !== undefined) {
+                localVarQueryParameter['MaxDistanceKm'] = maxDistanceKm;
             }
 
 
@@ -251,10 +292,34 @@ export const CarApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
+        async apiCarsCarIdGet(carId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CarDetailDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiCarsCarIdGet(carId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['CarApi.apiCarsCarIdGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {string} carId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
         async apiCarsCarIdImagesGet(carId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<CarImageDto>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.apiCarsCarIdImagesGet(carId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['CarApi.apiCarsCarIdImagesGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {string} carId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiCarsCarIdReviewsGet(carId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ReviewDto>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiCarsCarIdReviewsGet(carId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['CarApi.apiCarsCarIdReviewsGet']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -283,27 +348,16 @@ export const CarApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @param {string} id 
+         * @param {number} [longitude] 
+         * @param {number} [latitude] 
+         * @param {number} [maxDistanceKm] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiCarsIdGet(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CarDetailDto>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.apiCarsIdGet(id, options);
+        async apiCarsNearGet(longitude?: number, latitude?: number, maxDistanceKm?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<CarLocationDto>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiCarsNearGet(longitude, latitude, maxDistanceKm, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['CarApi.apiCarsIdGet']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * 
-         * @param {string} id 
-         * @param {string} [carId] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async apiCarsIdReviewsGet(id: string, carId?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ReviewDto>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.apiCarsIdReviewsGet(id, carId, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['CarApi.apiCarsIdReviewsGet']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['CarApi.apiCarsNearGet']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
@@ -318,12 +372,30 @@ export const CarApiFactory = function (configuration?: Configuration, basePath?:
     return {
         /**
          * 
+         * @param {CarApiApiCarsCarIdGetRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiCarsCarIdGet(requestParameters: CarApiApiCarsCarIdGetRequest, options?: RawAxiosRequestConfig): AxiosPromise<CarDetailDto> {
+            return localVarFp.apiCarsCarIdGet(requestParameters.carId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @param {CarApiApiCarsCarIdImagesGetRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
         apiCarsCarIdImagesGet(requestParameters: CarApiApiCarsCarIdImagesGetRequest, options?: RawAxiosRequestConfig): AxiosPromise<Array<CarImageDto>> {
             return localVarFp.apiCarsCarIdImagesGet(requestParameters.carId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {CarApiApiCarsCarIdReviewsGetRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiCarsCarIdReviewsGet(requestParameters: CarApiApiCarsCarIdReviewsGetRequest, options?: RawAxiosRequestConfig): AxiosPromise<Array<ReviewDto>> {
+            return localVarFp.apiCarsCarIdReviewsGet(requestParameters.carId, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -336,24 +408,29 @@ export const CarApiFactory = function (configuration?: Configuration, basePath?:
         },
         /**
          * 
-         * @param {CarApiApiCarsIdGetRequest} requestParameters Request parameters.
+         * @param {CarApiApiCarsNearGetRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiCarsIdGet(requestParameters: CarApiApiCarsIdGetRequest, options?: RawAxiosRequestConfig): AxiosPromise<CarDetailDto> {
-            return localVarFp.apiCarsIdGet(requestParameters.id, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {CarApiApiCarsIdReviewsGetRequest} requestParameters Request parameters.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        apiCarsIdReviewsGet(requestParameters: CarApiApiCarsIdReviewsGetRequest, options?: RawAxiosRequestConfig): AxiosPromise<Array<ReviewDto>> {
-            return localVarFp.apiCarsIdReviewsGet(requestParameters.id, requestParameters.carId, options).then((request) => request(axios, basePath));
+        apiCarsNearGet(requestParameters: CarApiApiCarsNearGetRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<Array<CarLocationDto>> {
+            return localVarFp.apiCarsNearGet(requestParameters.longitude, requestParameters.latitude, requestParameters.maxDistanceKm, options).then((request) => request(axios, basePath));
         },
     };
 };
+
+/**
+ * Request parameters for apiCarsCarIdGet operation in CarApi.
+ * @export
+ * @interface CarApiApiCarsCarIdGetRequest
+ */
+export interface CarApiApiCarsCarIdGetRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof CarApiApiCarsCarIdGet
+     */
+    readonly carId: string
+}
 
 /**
  * Request parameters for apiCarsCarIdImagesGet operation in CarApi.
@@ -365,6 +442,20 @@ export interface CarApiApiCarsCarIdImagesGetRequest {
      * 
      * @type {string}
      * @memberof CarApiApiCarsCarIdImagesGet
+     */
+    readonly carId: string
+}
+
+/**
+ * Request parameters for apiCarsCarIdReviewsGet operation in CarApi.
+ * @export
+ * @interface CarApiApiCarsCarIdReviewsGetRequest
+ */
+export interface CarApiApiCarsCarIdReviewsGetRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof CarApiApiCarsCarIdReviewsGet
      */
     readonly carId: string
 }
@@ -468,38 +559,31 @@ export interface CarApiApiCarsGetRequest {
 }
 
 /**
- * Request parameters for apiCarsIdGet operation in CarApi.
+ * Request parameters for apiCarsNearGet operation in CarApi.
  * @export
- * @interface CarApiApiCarsIdGetRequest
+ * @interface CarApiApiCarsNearGetRequest
  */
-export interface CarApiApiCarsIdGetRequest {
+export interface CarApiApiCarsNearGetRequest {
     /**
      * 
-     * @type {string}
-     * @memberof CarApiApiCarsIdGet
+     * @type {number}
+     * @memberof CarApiApiCarsNearGet
      */
-    readonly id: string
-}
-
-/**
- * Request parameters for apiCarsIdReviewsGet operation in CarApi.
- * @export
- * @interface CarApiApiCarsIdReviewsGetRequest
- */
-export interface CarApiApiCarsIdReviewsGetRequest {
-    /**
-     * 
-     * @type {string}
-     * @memberof CarApiApiCarsIdReviewsGet
-     */
-    readonly id: string
+    readonly longitude?: number
 
     /**
      * 
-     * @type {string}
-     * @memberof CarApiApiCarsIdReviewsGet
+     * @type {number}
+     * @memberof CarApiApiCarsNearGet
      */
-    readonly carId?: string
+    readonly latitude?: number
+
+    /**
+     * 
+     * @type {number}
+     * @memberof CarApiApiCarsNearGet
+     */
+    readonly maxDistanceKm?: number
 }
 
 /**
@@ -511,6 +595,17 @@ export interface CarApiApiCarsIdReviewsGetRequest {
 export class CarApi extends BaseAPI {
     /**
      * 
+     * @param {CarApiApiCarsCarIdGetRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CarApi
+     */
+    public apiCarsCarIdGet(requestParameters: CarApiApiCarsCarIdGetRequest, options?: RawAxiosRequestConfig) {
+        return CarApiFp(this.configuration).apiCarsCarIdGet(requestParameters.carId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
      * @param {CarApiApiCarsCarIdImagesGetRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -518,6 +613,17 @@ export class CarApi extends BaseAPI {
      */
     public apiCarsCarIdImagesGet(requestParameters: CarApiApiCarsCarIdImagesGetRequest, options?: RawAxiosRequestConfig) {
         return CarApiFp(this.configuration).apiCarsCarIdImagesGet(requestParameters.carId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {CarApiApiCarsCarIdReviewsGetRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CarApi
+     */
+    public apiCarsCarIdReviewsGet(requestParameters: CarApiApiCarsCarIdReviewsGetRequest, options?: RawAxiosRequestConfig) {
+        return CarApiFp(this.configuration).apiCarsCarIdReviewsGet(requestParameters.carId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -533,24 +639,13 @@ export class CarApi extends BaseAPI {
 
     /**
      * 
-     * @param {CarApiApiCarsIdGetRequest} requestParameters Request parameters.
+     * @param {CarApiApiCarsNearGetRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof CarApi
      */
-    public apiCarsIdGet(requestParameters: CarApiApiCarsIdGetRequest, options?: RawAxiosRequestConfig) {
-        return CarApiFp(this.configuration).apiCarsIdGet(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {CarApiApiCarsIdReviewsGetRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof CarApi
-     */
-    public apiCarsIdReviewsGet(requestParameters: CarApiApiCarsIdReviewsGetRequest, options?: RawAxiosRequestConfig) {
-        return CarApiFp(this.configuration).apiCarsIdReviewsGet(requestParameters.id, requestParameters.carId, options).then((request) => request(this.axios, this.basePath));
+    public apiCarsNearGet(requestParameters: CarApiApiCarsNearGetRequest = {}, options?: RawAxiosRequestConfig) {
+        return CarApiFp(this.configuration).apiCarsNearGet(requestParameters.longitude, requestParameters.latitude, requestParameters.maxDistanceKm, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

@@ -5,6 +5,8 @@ export type RootStackParamList = {
   Tabs: undefined
   DetailScreen: { carId: string };
   PaymentScreen: { car: CarDto, totalCost: number };
-  AuthScreen: undefined
-  RentalDetailScreen: { rentalId: string, rentalDto: RentalDto }
+  RentCarScreen: { car: CarDto, totalCost: number };
+  SelectNearCarScreen: undefined;
+  AuthScreen: undefined;
+  RentalDetailScreen: { rentalId: string, rentalDto: RentalDto };
 };

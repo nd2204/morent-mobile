@@ -27,6 +27,8 @@ import RentalsScreen from './RentalsScreen';
 import AuthLayout from './(auth)/_layout';
 import { Button } from '~/components/ui/button';
 import RentalDetailScreen from './RentalDetailScreen';
+import RentCarScreen from './RentCarScreen';
+import SelectNearCarScreen from './SelectNearCarScreen';
 
 [CarFront, HomeIcon, ShoppingCart, User].forEach(i => iconWithClassName(i))
 
@@ -142,6 +144,8 @@ export default function RootLayout() {
             <Stack.Screen name="DetailScreen" component={DetailScreen} />
             <Stack.Screen name="PaymentScreen" component={PaymentScreen} />
             <Stack.Screen name="RentalDetailScreen" component={RentalDetailScreen} />
+            <Stack.Screen name="RentCarScreen" component={RentCarScreen} options={{headerShown: false}}/>
+            <Stack.Screen name="SelectNearCarScreen" component={SelectNearCarScreen} options={{headerShown: false}}/>
 
             <Stack.Screen name="AuthScreen" component={AuthLayout}
               options={{
@@ -149,7 +153,7 @@ export default function RootLayout() {
                 //   <SafeAreaView>
                 //   </SafeAreaView>
                 // )
-                headerTitle: "",
+                headerTitle: undefined,
                 headerShadowVisible: false
               }} />
           </Stack.Navigator>

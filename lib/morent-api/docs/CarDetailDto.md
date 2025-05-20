@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **description** | **string** |  | [default to undefined]
 **reviews** | [**Array&lt;ReviewDto&gt;**](ReviewDto.md) |  | [default to undefined]
-**location** | [**CarLocationDto**](CarLocationDto.md) |  | [default to undefined]
+**location** | [**LocationDto**](LocationDto.md) |  | [default to undefined]
 **id** | **string** |  | [default to undefined]
 **title** | **string** |  | [default to undefined]
 **carModel** | [**CarModelDto**](CarModelDto.md) |  | [default to undefined]

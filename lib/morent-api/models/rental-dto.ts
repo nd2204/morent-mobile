@@ -15,7 +15,7 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import type { CarLocationDto } from './car-location-dto';
+import type { LocationDto } from './location-dto';
 
 /**
  * 
@@ -55,16 +55,16 @@ export interface RentalDto {
     'dropoffDate': string;
     /**
      * 
-     * @type {CarLocationDto}
+     * @type {LocationDto}
      * @memberof RentalDto
      */
-    'pickupLocation': CarLocationDto;
+    'pickupLocation': LocationDto;
     /**
      * 
-     * @type {CarLocationDto}
+     * @type {LocationDto}
      * @memberof RentalDto
      */
-    'dropoffLocation': CarLocationDto;
+    'dropoffLocation': LocationDto;
     /**
      * 
      * @type {number}

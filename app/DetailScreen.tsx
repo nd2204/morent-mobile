@@ -28,7 +28,6 @@ export default function DetailScreen() {
   const { navigate } = useNavigation<NavigationProps>();
   const { car, loading } = useCarDetail(params.carId);
   const { isAuthenticated } = useAuth();
-  const { cars } = useCars();
   const { colorScheme } = useColorScheme();
   const [favorites, setFavorites] = React.useState<string[]>([]);
   const model = car?.carModel;
@@ -130,8 +129,8 @@ export default function DetailScreen() {
 
           <CarList
             title="Recent Cars"
-            cars={cars}
             layout="horizontal"
+            identifier='detail_recent'
             favorites={favorites}
             onToggleFavorite={toggleFavorite}
             containerClassName="mt-6"
@@ -139,8 +138,8 @@ export default function DetailScreen() {
 
           <CarList
             title="Recommended Cars"
-            cars={cars}
             layout="horizontal"
+            identifier='detail_recommend'
             favorites={favorites}
             onToggleFavorite={toggleFavorite}
             containerClassName="mt-6 mb-4"

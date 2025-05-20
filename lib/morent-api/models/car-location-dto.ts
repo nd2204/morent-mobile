@@ -13,6 +13,9 @@
  */
 
 
+// May contain unused imports in some cases
+// @ts-ignore
+import type { CarModelDto } from './car-model-dto';
 
 /**
  * 
@@ -25,18 +28,48 @@ export interface CarLocationDto {
      * @type {string}
      * @memberof CarLocationDto
      */
-    'city': string;
+    'carId': string;
     /**
      * 
      * @type {string}
      * @memberof CarLocationDto
      */
-    'address': string;
+    'title': string;
     /**
      * 
      * @type {string}
      * @memberof CarLocationDto
      */
-    'country': string;
+    'imageUrl': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof CarLocationDto
+     */
+    'pricePerDay': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof CarLocationDto
+     */
+    'currency': string;
+    /**
+     * 
+     * @type {CarModelDto}
+     * @memberof CarLocationDto
+     */
+    'carModel': CarModelDto;
+    /**
+     * 
+     * @type {number}
+     * @memberof CarLocationDto
+     */
+    'longitude': number;
+    /**
+     * 
+     * @type {number}
+     * @memberof CarLocationDto
+     */
+    'latitude': number;
 }
 

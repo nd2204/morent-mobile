@@ -3,7 +3,7 @@ import { ActivityIndicator, Platform, StyleSheet, Text, View } from "react-nativ
 import MapView, { Marker, PROVIDER_DEFAULT } from "react-native-maps";
 import MapViewDirections from "react-native-maps-directions";
 import { calculateRegion } from "~/lib/map";
-import { useLocationStore } from "~/store";
+import { useCarStore, useLocationStore } from "~/store";
 
 const directionsAPI = process.env.EXPO_PUBLIC_DIRECTIONS_API_KEY;
 
@@ -11,9 +11,17 @@ const Map = () => {
   const {
     userLatitude,
     userLongitude,
-    destinationLatitude,
-    destinationLongitude
+    dropoffLatitude: destinationLatitude,
+    dropoffLongitude: destinationLongitude
   } = useLocationStore();
+
+  const {
+    selectedCar, setCarsLocation
+  } = useCarStore();
+
+  useEffect(() => {
+
+  }, [])
 
   const region = calculateRegion({
     userLatitude,
@@ -33,7 +41,6 @@ const Map = () => {
       region={region}
     // userInterfaceStyle="light"
     >
-      <Text>Map</Text>
     </MapView>
   );
 };

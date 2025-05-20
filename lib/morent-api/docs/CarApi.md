@@ -4,10 +4,61 @@ All URIs are relative to *http://localhost*
 
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
+|[**apiCarsCarIdGet**](#apicarscaridget) | **GET** /api/cars/{carId} | |
 |[**apiCarsCarIdImagesGet**](#apicarscaridimagesget) | **GET** /api/cars/{carId}/images | |
+|[**apiCarsCarIdReviewsGet**](#apicarscaridreviewsget) | **GET** /api/cars/{carId}/reviews | |
 |[**apiCarsGet**](#apicarsget) | **GET** /api/cars | |
-|[**apiCarsIdGet**](#apicarsidget) | **GET** /api/cars/{id} | |
-|[**apiCarsIdReviewsGet**](#apicarsidreviewsget) | **GET** /api/cars/{id}/reviews | |
+|[**apiCarsNearGet**](#apicarsnearget) | **GET** /api/cars/near | |
+
+# **apiCarsCarIdGet**
+> CarDetailDto apiCarsCarIdGet()
+
+
+### Example
+
+```typescript
+import {
+    CarApi,
+    Configuration
+} from './api';
+
+const configuration = new Configuration();
+const apiInstance = new CarApi(configuration);
+
+let carId: string; // (default to undefined)
+
+const { status, data } = await apiInstance.apiCarsCarIdGet(
+    carId
+);
+```
+
+### Parameters
+
+|Name | Type | Description  | Notes|
+|------------- | ------------- | ------------- | -------------|
+| **carId** | [**string**] |  | defaults to undefined|
+
+
+### Return type
+
+**CarDetailDto**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: text/plain, application/json, text/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+|**200** | OK |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **apiCarsCarIdImagesGet**
 > Array<CarImageDto> apiCarsCarIdImagesGet()
@@ -57,6 +108,56 @@ No authorization required
 |-------------|-------------|------------------|
 |**200** | OK |  -  |
 |**404** | Not Found |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **apiCarsCarIdReviewsGet**
+> Array<ReviewDto> apiCarsCarIdReviewsGet()
+
+
+### Example
+
+```typescript
+import {
+    CarApi,
+    Configuration
+} from './api';
+
+const configuration = new Configuration();
+const apiInstance = new CarApi(configuration);
+
+let carId: string; // (default to undefined)
+
+const { status, data } = await apiInstance.apiCarsCarIdReviewsGet(
+    carId
+);
+```
+
+### Parameters
+
+|Name | Type | Description  | Notes|
+|------------- | ------------- | ------------- | -------------|
+| **carId** | [**string**] |  | defaults to undefined|
+
+
+### Return type
+
+**Array<ReviewDto>**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: text/plain, application/json, text/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+|**200** | OK |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -146,8 +247,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **apiCarsIdGet**
-> CarDetailDto apiCarsIdGet()
+# **apiCarsNearGet**
+> Array<CarLocationDto> apiCarsNearGet()
 
 
 ### Example
@@ -161,10 +262,14 @@ import {
 const configuration = new Configuration();
 const apiInstance = new CarApi(configuration);
 
-let id: string; // (default to undefined)
+let longitude: number; // (optional) (default to undefined)
+let latitude: number; // (optional) (default to undefined)
+let maxDistanceKm: number; // (optional) (default to undefined)
 
-const { status, data } = await apiInstance.apiCarsIdGet(
-    id
+const { status, data } = await apiInstance.apiCarsNearGet(
+    longitude,
+    latitude,
+    maxDistanceKm
 );
 ```
 
@@ -172,65 +277,14 @@ const { status, data } = await apiInstance.apiCarsIdGet(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **id** | [**string**] |  | defaults to undefined|
+| **longitude** | [**number**] |  | (optional) defaults to undefined|
+| **latitude** | [**number**] |  | (optional) defaults to undefined|
+| **maxDistanceKm** | [**number**] |  | (optional) defaults to undefined|
 
 
 ### Return type
 
-**CarDetailDto**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: text/plain, application/json, text/json
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-|**200** | OK |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **apiCarsIdReviewsGet**
-> Array<ReviewDto> apiCarsIdReviewsGet()
-
-
-### Example
-
-```typescript
-import {
-    CarApi,
-    Configuration
-} from './api';
-
-const configuration = new Configuration();
-const apiInstance = new CarApi(configuration);
-
-let id: string; // (default to undefined)
-let carId: string; // (optional) (default to undefined)
-
-const { status, data } = await apiInstance.apiCarsIdReviewsGet(
-    id,
-    carId
-);
-```
-
-### Parameters
-
-|Name | Type | Description  | Notes|
-|------------- | ------------- | ------------- | -------------|
-| **id** | [**string**] |  | defaults to undefined|
-| **carId** | [**string**] |  | (optional) defaults to undefined|
-
-
-### Return type
-
-**Array<ReviewDto>**
+**Array<CarLocationDto>**
 
 ### Authorization
 
