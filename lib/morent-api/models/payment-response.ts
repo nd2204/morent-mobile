@@ -17,26 +17,38 @@
 /**
  * 
  * @export
- * @interface LeaveReviewRequest
+ * @interface PaymentResponse
  */
-export interface LeaveReviewRequest {
+export interface PaymentResponse {
     /**
      * 
      * @type {string}
-     * @memberof LeaveReviewRequest
+     * @memberof PaymentResponse
      */
-    'rentalId': string;
+    'transactionId'?: string;
     /**
      * 
      * @type {number}
-     * @memberof LeaveReviewRequest
+     * @memberof PaymentResponse
      */
-    'rating': number;
+    'status': number;
     /**
      * 
      * @type {string}
-     * @memberof LeaveReviewRequest
+     * @memberof PaymentResponse
      */
-    'comment': string;
+    'paymentUrl'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PaymentResponse
+     */
+    'message'?: string;
+    /**
+     * 
+     * @type {{ [key: string]: string; }}
+     * @memberof PaymentResponse
+     */
+    'providerData'?: { [key: string]: string; };
 }
 

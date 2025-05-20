@@ -14,10 +14,10 @@ export function Hero() {
     <View className='mb-4'>
       <View className="bg-background px-4 py-6">
         <View className="gap-y-4">
-          <Text className="text-3xl font-bold text-foreground leading-tight">
+          <Text className="text-3xl font-black text-foreground leading-tight">
             The Best Platform for Car Rental
           </Text>
-          <Text className="text-base text-muted-foreground leading-relaxed">
+          <Text className="text-base font-semibold text-muted-foreground leading-relaxed">
             Ease of doing a car rental safely and reliably. Of course at a low price.
           </Text>
           <Button 

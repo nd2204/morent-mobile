@@ -9,7 +9,6 @@ import { Button } from "~/components/ui/button";
 import { Card } from "~/components/ui/card";
 import { Separator } from "~/components/ui/separator";
 import { useAuth } from "~/hooks/useAuth";
-import { useCarDetail } from "~/hooks/useCarDetail";
 import { useUser } from "~/hooks/useUser";
 import { iconWithClassName } from "~/lib/icons/iconWithClassName";
 import { RentalDto, UserCarsReviewDto } from "~/lib/morent-api";

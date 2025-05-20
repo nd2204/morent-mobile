@@ -139,7 +139,7 @@ export default function CategoryScreen() {
         favorites={favorites}
         onToggleFavorite={toggleFavorite}
         showViewAll={false}
-        containerClassName="px-4 mb-20"
+        containerClassName="px-4 mb-20 h-full"
       />
       )
     </View>

@@ -267,7 +267,7 @@ export const AuthApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiAuthLoginPost(loginRequest: LoginRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ValidationProblemDetails>> {
+        async apiAuthLoginPost(loginRequest: LoginRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AuthResponse>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.apiAuthLoginPost(loginRequest, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['AuthApi.apiAuthLoginPost']?.[localVarOperationServerIndex]?.url;
@@ -340,7 +340,7 @@ export const AuthApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiAuthLoginPost(requestParameters: AuthApiApiAuthLoginPostRequest, options?: RawAxiosRequestConfig): AxiosPromise<ValidationProblemDetails> {
+        apiAuthLoginPost(requestParameters: AuthApiApiAuthLoginPostRequest, options?: RawAxiosRequestConfig): AxiosPromise<AuthResponse> {
             return localVarFp.apiAuthLoginPost(requestParameters.loginRequest, options).then((request) => request(axios, basePath));
         },
         /**

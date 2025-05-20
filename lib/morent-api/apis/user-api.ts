@@ -22,9 +22,17 @@ import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObj
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, type RequestArgs, BaseAPI, RequiredError, operationServerMap } from '../base';
 // @ts-ignore
+import type { CreateRentalRequest } from '../models';
+// @ts-ignore
+import type { LeaveReviewRequest } from '../models';
+// @ts-ignore
 import type { ProblemDetails } from '../models';
 // @ts-ignore
 import type { RentalDto } from '../models';
+// @ts-ignore
+import type { ReviewDto } from '../models';
+// @ts-ignore
+import type { UpdateReviewRequest } from '../models';
 // @ts-ignore
 import type { UserCarsReviewDto } from '../models';
 // @ts-ignore
@@ -68,6 +76,40 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
         },
         /**
          * 
+         * @param {string} [userId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiUsersMeProfileImageDelete: async (userId?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/users/me/profile-image`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (userId !== undefined) {
+                localVarQueryParameter['userId'] = userId;
+            }
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -89,6 +131,49 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} [userId] 
+         * @param {File} [image] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiUsersMeProfileImagePost: async (userId?: string, image?: File, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/users/me/profile-image`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+            const localVarFormParams = new ((configuration && configuration.formDataCtor) || FormData)();
+
+            if (userId !== undefined) {
+                localVarQueryParameter['userId'] = userId;
+            }
+
+
+            if (image !== undefined) { 
+                localVarFormParams.append('image', image as any);
+            }
+    
+    
+            localVarHeaderParameter['Content-Type'] = 'multipart/form-data';
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = localVarFormParams;
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -126,6 +211,41 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
         },
         /**
          * 
+         * @param {CreateRentalRequest} createRentalRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiUsersMeRentalsPost: async (createRentalRequest: CreateRentalRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'createRentalRequest' is not null or undefined
+            assertParamExists('apiUsersMeRentalsPost', 'createRentalRequest', createRentalRequest)
+            const localVarPath = `/api/users/me/rentals`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(createRentalRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -155,15 +275,14 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
         },
         /**
          * 
-         * @param {string} userId 
+         * @param {LeaveReviewRequest} leaveReviewRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiUsersUserIdProfileImageDelete: async (userId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'userId' is not null or undefined
-            assertParamExists('apiUsersUserIdProfileImageDelete', 'userId', userId)
-            const localVarPath = `/api/users/{userId}/profile-image`
-                .replace(`{${"userId"}}`, encodeURIComponent(String(userId)));
+        apiUsersMeReviewsPost: async (leaveReviewRequest: LeaveReviewRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'leaveReviewRequest' is not null or undefined
+            assertParamExists('apiUsersMeReviewsPost', 'leaveReviewRequest', leaveReviewRequest)
+            const localVarPath = `/api/users/me/reviews`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -171,15 +290,57 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
                 baseOptions = configuration.baseOptions;
             }
 
-            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
 
     
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(leaveReviewRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} reviewId 
+         * @param {UpdateReviewRequest} updateReviewRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiUsersMeReviewsReviewIdPut: async (reviewId: string, updateReviewRequest: UpdateReviewRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'reviewId' is not null or undefined
+            assertParamExists('apiUsersMeReviewsReviewIdPut', 'reviewId', reviewId)
+            // verify required parameter 'updateReviewRequest' is not null or undefined
+            assertParamExists('apiUsersMeReviewsReviewIdPut', 'updateReviewRequest', updateReviewRequest)
+            const localVarPath = `/api/users/me/reviews/{reviewId}`
+                .replace(`{${"reviewId"}}`, encodeURIComponent(String(reviewId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(updateReviewRequest, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -219,48 +380,6 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
                 options: localVarRequestOptions,
             };
         },
-        /**
-         * 
-         * @param {string} userId 
-         * @param {File} [image] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        apiUsersUserIdProfileImagePost: async (userId: string, image?: File, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'userId' is not null or undefined
-            assertParamExists('apiUsersUserIdProfileImagePost', 'userId', userId)
-            const localVarPath = `/api/users/{userId}/profile-image`
-                .replace(`{${"userId"}}`, encodeURIComponent(String(userId)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-            const localVarFormParams = new ((configuration && configuration.formDataCtor) || FormData)();
-
-
-            if (image !== undefined) { 
-                localVarFormParams.append('image', image as any);
-            }
-    
-    
-            localVarHeaderParameter['Content-Type'] = 'multipart/form-data';
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = localVarFormParams;
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
     }
 };
 
@@ -284,13 +403,38 @@ export const UserApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @param {string} [userId] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiUsersMeProfileImageGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserProfileImageDto>> {
+        async apiUsersMeProfileImageDelete(userId?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiUsersMeProfileImageDelete(userId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['UserApi.apiUsersMeProfileImageDelete']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiUsersMeProfileImageGet(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.apiUsersMeProfileImageGet(options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['UserApi.apiUsersMeProfileImageGet']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {string} [userId] 
+         * @param {File} [image] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiUsersMeProfileImagePost(userId?: string, image?: File, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserProfileImageDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiUsersMeProfileImagePost(userId, image, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['UserApi.apiUsersMeProfileImagePost']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -306,6 +450,18 @@ export const UserApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @param {CreateRentalRequest} createRentalRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiUsersMeRentalsPost(createRentalRequest: CreateRentalRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RentalDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiUsersMeRentalsPost(createRentalRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['UserApi.apiUsersMeRentalsPost']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -317,14 +473,27 @@ export const UserApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @param {string} userId 
+         * @param {LeaveReviewRequest} leaveReviewRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiUsersUserIdProfileImageDelete(userId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.apiUsersUserIdProfileImageDelete(userId, options);
+        async apiUsersMeReviewsPost(leaveReviewRequest: LeaveReviewRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ReviewDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiUsersMeReviewsPost(leaveReviewRequest, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['UserApi.apiUsersUserIdProfileImageDelete']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['UserApi.apiUsersMeReviewsPost']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {string} reviewId 
+         * @param {UpdateReviewRequest} updateReviewRequest 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiUsersMeReviewsReviewIdPut(reviewId: string, updateReviewRequest: UpdateReviewRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.apiUsersMeReviewsReviewIdPut(reviewId, updateReviewRequest, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['UserApi.apiUsersMeReviewsReviewIdPut']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -337,19 +506,6 @@ export const UserApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.apiUsersUserIdProfileImageGet(userId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['UserApi.apiUsersUserIdProfileImageGet']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * 
-         * @param {string} userId 
-         * @param {File} [image] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async apiUsersUserIdProfileImagePost(userId: string, image?: File, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserProfileImageDto>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.apiUsersUserIdProfileImagePost(userId, image, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['UserApi.apiUsersUserIdProfileImagePost']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
@@ -372,11 +528,29 @@ export const UserApiFactory = function (configuration?: Configuration, basePath?
         },
         /**
          * 
+         * @param {UserApiApiUsersMeProfileImageDeleteRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiUsersMeProfileImageGet(options?: RawAxiosRequestConfig): AxiosPromise<UserProfileImageDto> {
+        apiUsersMeProfileImageDelete(requestParameters: UserApiApiUsersMeProfileImageDeleteRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.apiUsersMeProfileImageDelete(requestParameters.userId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiUsersMeProfileImageGet(options?: RawAxiosRequestConfig): AxiosPromise<void> {
             return localVarFp.apiUsersMeProfileImageGet(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {UserApiApiUsersMeProfileImagePostRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiUsersMeProfileImagePost(requestParameters: UserApiApiUsersMeProfileImagePostRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<UserProfileImageDto> {
+            return localVarFp.apiUsersMeProfileImagePost(requestParameters.userId, requestParameters.image, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -388,6 +562,15 @@ export const UserApiFactory = function (configuration?: Configuration, basePath?
         },
         /**
          * 
+         * @param {UserApiApiUsersMeRentalsPostRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiUsersMeRentalsPost(requestParameters: UserApiApiUsersMeRentalsPostRequest, options?: RawAxiosRequestConfig): AxiosPromise<RentalDto> {
+            return localVarFp.apiUsersMeRentalsPost(requestParameters.createRentalRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -396,12 +579,21 @@ export const UserApiFactory = function (configuration?: Configuration, basePath?
         },
         /**
          * 
-         * @param {UserApiApiUsersUserIdProfileImageDeleteRequest} requestParameters Request parameters.
+         * @param {UserApiApiUsersMeReviewsPostRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiUsersUserIdProfileImageDelete(requestParameters: UserApiApiUsersUserIdProfileImageDeleteRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.apiUsersUserIdProfileImageDelete(requestParameters.userId, options).then((request) => request(axios, basePath));
+        apiUsersMeReviewsPost(requestParameters: UserApiApiUsersMeReviewsPostRequest, options?: RawAxiosRequestConfig): AxiosPromise<ReviewDto> {
+            return localVarFp.apiUsersMeReviewsPost(requestParameters.leaveReviewRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {UserApiApiUsersMeReviewsReviewIdPutRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiUsersMeReviewsReviewIdPut(requestParameters: UserApiApiUsersMeReviewsReviewIdPutRequest, options?: RawAxiosRequestConfig): AxiosPromise<string> {
+            return localVarFp.apiUsersMeReviewsReviewIdPut(requestParameters.reviewId, requestParameters.updateReviewRequest, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -412,30 +604,91 @@ export const UserApiFactory = function (configuration?: Configuration, basePath?
         apiUsersUserIdProfileImageGet(requestParameters: UserApiApiUsersUserIdProfileImageGetRequest, options?: RawAxiosRequestConfig): AxiosPromise<UserProfileImageDto> {
             return localVarFp.apiUsersUserIdProfileImageGet(requestParameters.userId, options).then((request) => request(axios, basePath));
         },
-        /**
-         * 
-         * @param {UserApiApiUsersUserIdProfileImagePostRequest} requestParameters Request parameters.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        apiUsersUserIdProfileImagePost(requestParameters: UserApiApiUsersUserIdProfileImagePostRequest, options?: RawAxiosRequestConfig): AxiosPromise<UserProfileImageDto> {
-            return localVarFp.apiUsersUserIdProfileImagePost(requestParameters.userId, requestParameters.image, options).then((request) => request(axios, basePath));
-        },
     };
 };
 
 /**
- * Request parameters for apiUsersUserIdProfileImageDelete operation in UserApi.
+ * Request parameters for apiUsersMeProfileImageDelete operation in UserApi.
  * @export
- * @interface UserApiApiUsersUserIdProfileImageDeleteRequest
+ * @interface UserApiApiUsersMeProfileImageDeleteRequest
  */
-export interface UserApiApiUsersUserIdProfileImageDeleteRequest {
+export interface UserApiApiUsersMeProfileImageDeleteRequest {
     /**
      * 
      * @type {string}
-     * @memberof UserApiApiUsersUserIdProfileImageDelete
+     * @memberof UserApiApiUsersMeProfileImageDelete
      */
-    readonly userId: string
+    readonly userId?: string
+}
+
+/**
+ * Request parameters for apiUsersMeProfileImagePost operation in UserApi.
+ * @export
+ * @interface UserApiApiUsersMeProfileImagePostRequest
+ */
+export interface UserApiApiUsersMeProfileImagePostRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof UserApiApiUsersMeProfileImagePost
+     */
+    readonly userId?: string
+
+    /**
+     * 
+     * @type {File}
+     * @memberof UserApiApiUsersMeProfileImagePost
+     */
+    readonly image?: File
+}
+
+/**
+ * Request parameters for apiUsersMeRentalsPost operation in UserApi.
+ * @export
+ * @interface UserApiApiUsersMeRentalsPostRequest
+ */
+export interface UserApiApiUsersMeRentalsPostRequest {
+    /**
+     * 
+     * @type {CreateRentalRequest}
+     * @memberof UserApiApiUsersMeRentalsPost
+     */
+    readonly createRentalRequest: CreateRentalRequest
+}
+
+/**
+ * Request parameters for apiUsersMeReviewsPost operation in UserApi.
+ * @export
+ * @interface UserApiApiUsersMeReviewsPostRequest
+ */
+export interface UserApiApiUsersMeReviewsPostRequest {
+    /**
+     * 
+     * @type {LeaveReviewRequest}
+     * @memberof UserApiApiUsersMeReviewsPost
+     */
+    readonly leaveReviewRequest: LeaveReviewRequest
+}
+
+/**
+ * Request parameters for apiUsersMeReviewsReviewIdPut operation in UserApi.
+ * @export
+ * @interface UserApiApiUsersMeReviewsReviewIdPutRequest
+ */
+export interface UserApiApiUsersMeReviewsReviewIdPutRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof UserApiApiUsersMeReviewsReviewIdPut
+     */
+    readonly reviewId: string
+
+    /**
+     * 
+     * @type {UpdateReviewRequest}
+     * @memberof UserApiApiUsersMeReviewsReviewIdPut
+     */
+    readonly updateReviewRequest: UpdateReviewRequest
 }
 
 /**
@@ -450,27 +703,6 @@ export interface UserApiApiUsersUserIdProfileImageGetRequest {
      * @memberof UserApiApiUsersUserIdProfileImageGet
      */
     readonly userId: string
-}
-
-/**
- * Request parameters for apiUsersUserIdProfileImagePost operation in UserApi.
- * @export
- * @interface UserApiApiUsersUserIdProfileImagePostRequest
- */
-export interface UserApiApiUsersUserIdProfileImagePostRequest {
-    /**
-     * 
-     * @type {string}
-     * @memberof UserApiApiUsersUserIdProfileImagePost
-     */
-    readonly userId: string
-
-    /**
-     * 
-     * @type {File}
-     * @memberof UserApiApiUsersUserIdProfileImagePost
-     */
-    readonly image?: File
 }
 
 /**
@@ -492,12 +724,34 @@ export class UserApi extends BaseAPI {
 
     /**
      * 
+     * @param {UserApiApiUsersMeProfileImageDeleteRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UserApi
+     */
+    public apiUsersMeProfileImageDelete(requestParameters: UserApiApiUsersMeProfileImageDeleteRequest = {}, options?: RawAxiosRequestConfig) {
+        return UserApiFp(this.configuration).apiUsersMeProfileImageDelete(requestParameters.userId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UserApi
      */
     public apiUsersMeProfileImageGet(options?: RawAxiosRequestConfig) {
         return UserApiFp(this.configuration).apiUsersMeProfileImageGet(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {UserApiApiUsersMeProfileImagePostRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UserApi
+     */
+    public apiUsersMeProfileImagePost(requestParameters: UserApiApiUsersMeProfileImagePostRequest = {}, options?: RawAxiosRequestConfig) {
+        return UserApiFp(this.configuration).apiUsersMeProfileImagePost(requestParameters.userId, requestParameters.image, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -512,6 +766,17 @@ export class UserApi extends BaseAPI {
 
     /**
      * 
+     * @param {UserApiApiUsersMeRentalsPostRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UserApi
+     */
+    public apiUsersMeRentalsPost(requestParameters: UserApiApiUsersMeRentalsPostRequest, options?: RawAxiosRequestConfig) {
+        return UserApiFp(this.configuration).apiUsersMeRentalsPost(requestParameters.createRentalRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UserApi
@@ -522,13 +787,24 @@ export class UserApi extends BaseAPI {
 
     /**
      * 
-     * @param {UserApiApiUsersUserIdProfileImageDeleteRequest} requestParameters Request parameters.
+     * @param {UserApiApiUsersMeReviewsPostRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UserApi
      */
-    public apiUsersUserIdProfileImageDelete(requestParameters: UserApiApiUsersUserIdProfileImageDeleteRequest, options?: RawAxiosRequestConfig) {
-        return UserApiFp(this.configuration).apiUsersUserIdProfileImageDelete(requestParameters.userId, options).then((request) => request(this.axios, this.basePath));
+    public apiUsersMeReviewsPost(requestParameters: UserApiApiUsersMeReviewsPostRequest, options?: RawAxiosRequestConfig) {
+        return UserApiFp(this.configuration).apiUsersMeReviewsPost(requestParameters.leaveReviewRequest, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {UserApiApiUsersMeReviewsReviewIdPutRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UserApi
+     */
+    public apiUsersMeReviewsReviewIdPut(requestParameters: UserApiApiUsersMeReviewsReviewIdPutRequest, options?: RawAxiosRequestConfig) {
+        return UserApiFp(this.configuration).apiUsersMeReviewsReviewIdPut(requestParameters.reviewId, requestParameters.updateReviewRequest, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -540,17 +816,6 @@ export class UserApi extends BaseAPI {
      */
     public apiUsersUserIdProfileImageGet(requestParameters: UserApiApiUsersUserIdProfileImageGetRequest, options?: RawAxiosRequestConfig) {
         return UserApiFp(this.configuration).apiUsersUserIdProfileImageGet(requestParameters.userId, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {UserApiApiUsersUserIdProfileImagePostRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof UserApi
-     */
-    public apiUsersUserIdProfileImagePost(requestParameters: UserApiApiUsersUserIdProfileImagePostRequest, options?: RawAxiosRequestConfig) {
-        return UserApiFp(this.configuration).apiUsersUserIdProfileImagePost(requestParameters.userId, requestParameters.image, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

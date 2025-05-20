@@ -14,7 +14,7 @@ import { AuthProvider } from '~/services/AuthService';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import ProfileScreen from './ProfileScreen';
 import HomeScreen from './HomeScreen';
-import CategoryScreen from './Category';
+import CategoryScreen from './CategoryScreen';
 import { Header } from '~/components/Header';
 import { ArrowLeft, CarFront, ChevronLeft, HomeIcon, ShoppingCart, User } from 'lucide-react-native';
 import { iconWithClassName } from '~/lib/icons/iconWithClassName';

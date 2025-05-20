@@ -14,9 +14,9 @@
 
 
 
+export * from './apis/admin-api';
 export * from './apis/auth-api';
 export * from './apis/car-api';
-export * from './apis/rental-api';
-export * from './apis/review-api';
+export * from './apis/payment-api';
 export * from './apis/user-api';
 

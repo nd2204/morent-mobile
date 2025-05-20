@@ -1,40 +1,63 @@
 import * as React from 'react';
-import { SectionList, View } from 'react-native';
+import { SectionList, Text, View } from 'react-native';
 import { Hero } from '~/components/Hero';
-import { PickUpDropOff } from '~/components/PickUpDropOff';
 import { CarList } from '~/components/CarList';
 import { useCars, UseCarsOptions } from '~/hooks/useCars';
-import { Loading } from '~/components/Loading';
+import Map from '~/components/Map';
+import { useLocationStore } from '~/store';
+import * as Location from 'expo-location'
 
 export default function HomeScreen() {
   const [favorites, setFavorites] = React.useState<string[]>([]);
   const [isFilterVisible, setIsFilterVisible] = React.useState(false);
-  
+
+  const { setUserLocation, setDestinationLocation } = useLocationStore();
+  const [hasPermission, setHasPermission ] = React.useState(false);
+
+  React.useEffect(() => {
+    const requestLocation = async() => {
+      let { status } = await Location.getForegroundPermissionsAsync()
+      if (status !== 'granted') {
+        setHasPermission(false);
+        return;
+      }
+
+      let location = await Location.getCurrentPositionAsync();
+      const address = await Location.reverseGeocodeAsync({
+        latitude: location.coords?.latitude!,
+        longitude: location.coords?.longitude!,
+      });
+
+      setUserLocation({
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+        address: `${address[0].name}, ${address[0].region}`
+      })
+    };
+
+    requestLocation();
+  }, [])
+
+
   const toggleFavorite = (id: string) => {
-    setFavorites(prev => 
+    setFavorites(prev =>
       prev.includes(id) ? prev.filter(fid => fid !== id) : [...prev, id]
     );
   };
 
-  const handleFilterPress = () => {
-    setIsFilterVisible(!isFilterVisible);
-    // TODO: Implement filter modal or dropdown
-    console.log('Filter pressed');
-  };
-
-  const popularOption : UseCarsOptions = {
+  const popularOption: UseCarsOptions = {
     page: 2,
     pageSize: 5
   }
 
-  const recomendedOption : UseCarsOptions = {
+  const recomendedOption: UseCarsOptions = {
     pageSize: 10
   }
 
   const SECTIONS = [
     { type: 'hero', data: [null] },
-    { type: 'pickUpDropOff', data: [null] },
-    { type: 'popular', data: [popularOption]},
+    { type: 'location', data: [null] },
+    { type: 'popular', data: [popularOption] },
     { type: 'recommended', data: [recomendedOption] }
   ];
 
@@ -42,8 +65,17 @@ export default function HomeScreen() {
     switch (section.type) {
       case 'hero':
         return <Hero />;
-      case 'pickUpDropOff':
-        return <PickUpDropOff />;
+      case 'location':
+        return (
+          <>
+            <View className={"flex-row justify-between items-center mb-4 "}>
+              <Text className="text-2xl font-black text-primary">Your current location</Text>
+            </View>
+            <View className="h-[300px] overflow-hidden rounded-xl">
+              <Map />
+            </View>
+          </>
+        )
       case 'popular':
         return (
           <CarList

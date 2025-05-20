@@ -7,11 +7,13 @@ interface LoadingProps
 {
   inverted?: boolean,
   withLogo?: boolean
+  size?: "small" | "large"
 }
 
 export function Loading({
   inverted = false,
-  withLogo = false
+  withLogo = false,
+  size = "large" 
 } : LoadingProps) {
   const { colorScheme } = useColorScheme();
 
@@ -27,8 +29,8 @@ export function Loading({
       }
       <View className="flex-1 flex-col w-full justify-center self-center bg-background px-4">
         {inverted
-          ? <ActivityIndicator className="fg-background" size="large" color={colorScheme == "dark" ? "#000" : "#fff"} />
-          : <ActivityIndicator className="fg-background" size="large" color={colorScheme == "dark" ? "#fff" : "#000"} />
+          ? <ActivityIndicator className="fg-background" size={size} color={colorScheme == "dark" ? "#000" : "#fff"} />
+          : <ActivityIndicator className="fg-background" size={size} color={colorScheme == "dark" ? "#fff" : "#000"} />
         }
       </View>
     </>

@@ -29,14 +29,10 @@ export const createApiClients = () => {
 
   return {
     carApi: new CarApi(config, undefined, api),
-    rentalApi: new RentalApi(config, undefined, api),
-    reviewApi: new ReviewApi(config, undefined, api),
     userApi: new UserApi(config, undefined, api),
   };
 };
 
 // Export all API instances
 export const carApi = new CarApi(configuration, undefined, api);
-export const rentalApi = new RentalApi(configuration, undefined, api);
-export const reviewApi = new ReviewApi(configuration, undefined, api);
 export const userApi = new UserApi(configuration, undefined, api);

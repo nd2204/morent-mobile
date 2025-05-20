@@ -17,26 +17,32 @@
 /**
  * 
  * @export
- * @interface LeaveReviewRequest
+ * @interface PaymentMethodDto
  */
-export interface LeaveReviewRequest {
+export interface PaymentMethodDto {
     /**
      * 
      * @type {string}
-     * @memberof LeaveReviewRequest
+     * @memberof PaymentMethodDto
      */
-    'rentalId': string;
+    'id': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PaymentMethodDto
+     */
+    'name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof PaymentMethodDto
+     */
+    'logoUrl': string;
     /**
      * 
      * @type {number}
-     * @memberof LeaveReviewRequest
+     * @memberof PaymentMethodDto
      */
-    'rating': number;
-    /**
-     * 
-     * @type {string}
-     * @memberof LeaveReviewRequest
-     */
-    'comment': string;
+    'feePercent': number;
 }
 

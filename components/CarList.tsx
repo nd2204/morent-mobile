@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FlatList, Pressable, View } from 'react-native';
+import { FlatList, Pressable, SafeAreaView, View } from 'react-native';
 import { Text } from '~/components/ui/text';
 import { Link } from 'expo-router';
 import { CarCard, CarCardProps } from './CarCard';
@@ -12,6 +12,7 @@ import { TabParamList } from '~/types/TabParamList';
 import { RootStackParamList } from '~/types/RootStackParamList';
 import { NavigationProps } from '~/types/NavigationProps';
 import { useCars, UseCarsOptions } from '~/hooks/useCars';
+import { Loading } from './Loading';
 
 interface CarListProps {
   title?: string;
@@ -44,28 +45,80 @@ export function CarList({
 }: CarListProps) {
   const isHorizontal = layout === 'horizontal';
   const { navigate } = useNavigation<NavigationProps>()
+
+  const [currentPage, setCurrentPage] = React.useState(options.page! || DefaultOptions.page!);
+  const [allCars, setAllCars] = React.useState<CarDto[]>([]);
+  const [hasMore, setHasMore] = React.useState(true);
+  const [isLoadingMore, setIsLoadingMore] = React.useState(false);
+
+  const currentOptions = React.useMemo(() => ({
+    ...options,
+    page: currentPage,
+    pageSize: options.pageSize || DefaultOptions.pageSize,
+  }), [options, currentPage]);
+
   const { cars, loading, setOptions } = useCars();
-  const [ page, setPage ] = React.useState(options.page ?? DefaultOptions.page!)
 
-  const data = React.useMemo(() => {
-
-  }, [cars])
-
+    // Initial load and when filters change
   React.useEffect(() => {
-    if (options) {
-      setOptions(options)
-    }
-  }, [options])
-
-  React.useEffect(() => {
-    setOptions(options => options = {
+    // Reset state when options (filter) changes from parent
+    setCurrentPage(1);
+    setAllCars([]);
+    setHasMore(true);
+    
+    setOptions({
       ...options,
-      page: page + 1
-    })
+      page: 1
+    });
+  }, [
+    // Only include filter properties, not pagination properties
+    options.brand,
+    options.type,
+    options.capacity,
+    options.fuelType,
+    options.gearbox,
+    options.minPrice,
+    options.maxPrice,
+    options.rating,
+    options.location,
+    options.search,
+    options.sort,
+    options.pageSize
+    // Don't include options.page here as it would cause an infinite loop
+  ]);
+
+  // Process fetched data
+  React.useEffect(() => {
     if (!loading) {
-      console.log(page, cars.length)
+      if (cars.length === 0) {
+        // No more cars to load
+        setHasMore(false);
+      } else if (currentPage === 1) {
+        // First page, replace all cars
+        setAllCars(cars);
+      } else {
+        // Append new cars, checking for duplicates by ID
+        const newCarIds = new Set(cars.map(car => car.id));
+        const uniqueExistingCars = allCars.filter(car => !newCarIds.has(car.id));
+        setAllCars([...uniqueExistingCars, ...cars]);
+      }
+      setIsLoadingMore(false);
     }
-  }, [page])
+  }, [cars, loading]);
+
+  const handleLoadMore = () => {
+    if (!loading && !isLoadingMore && hasMore) {
+      setIsLoadingMore(true);
+      const nextPage = currentPage + 1;
+      setCurrentPage(nextPage);
+
+      // Update options with new page
+      setOptions(prevOptions => ({
+        ...prevOptions,
+        page: nextPage
+      }));
+    }
+  };
 
   const renderHeader = () => {
     if (!title) return null;
@@ -82,10 +135,25 @@ export function CarList({
     );
   };
 
-  const handleEndReached = () => {
-    if (!loading) {
-      setPage(p => p + 1)
-    }
+
+  const renderFooter = () => {
+    if (!isLoadingMore) return listFooterComponent;
+    
+    return (
+      <View className="py-4">
+        <Loading size="small" />
+      </View>
+    );
+  }; 
+
+  if (loading && allCars.length === 0) {
+    return (
+      <SafeAreaView className="flex-1 bg-background">
+        <View className="flex-1 items-center justify-center">
+          <Loading />
+        </View>
+      </SafeAreaView>
+    );
   }
 
   return (
@@ -95,7 +163,7 @@ export function CarList({
         horizontal={isHorizontal}
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
-        data={cars}
+        data={allCars}
         keyExtractor={item => item.id}
         contentContainerClassName={cn(
           isHorizontal ? "gap-x-4" : "gap-y-4 mb-20 pb-20",
@@ -111,9 +179,10 @@ export function CarList({
             />
           </View>
         )}
-        onEndReached={handleEndReached}
+        onEndReached={handleLoadMore}
+        onEndReachedThreshold={0.8}
         ListHeaderComponent={listHeaderComponent}
-        ListFooterComponent={listFooterComponent}
+        ListFooterComponent={renderFooter()}
       />
     </View>
   );

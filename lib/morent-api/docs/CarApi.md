@@ -5,15 +5,9 @@ All URIs are relative to *http://localhost*
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
 |[**apiCarsCarIdImagesGet**](#apicarscaridimagesget) | **GET** /api/cars/{carId}/images | |
-|[**apiCarsCarIdImagesImageIdPost**](#apicarscaridimagesimageidpost) | **POST** /api/cars/{carId}/images/{imageId} | |
-|[**apiCarsCarIdImagesImageIdSetPrimaryPut**](#apicarscaridimagesimageidsetprimaryput) | **PUT** /api/cars/{carId}/images/{imageId}/set-primary | |
-|[**apiCarsCarIdImagesPost**](#apicarscaridimagespost) | **POST** /api/cars/{carId}/images | |
-|[**apiCarsCarIdImagesReorderPut**](#apicarscaridimagesreorderput) | **PUT** /api/cars/{carId}/images/reorder | |
 |[**apiCarsGet**](#apicarsget) | **GET** /api/cars | |
-|[**apiCarsIdDelete**](#apicarsiddelete) | **DELETE** /api/cars/{id} | |
 |[**apiCarsIdGet**](#apicarsidget) | **GET** /api/cars/{id} | |
-|[**apiCarsIdPut**](#apicarsidput) | **PUT** /api/cars/{id} | |
-|[**apiCarsPost**](#apicarspost) | **POST** /api/cars | |
+|[**apiCarsIdReviewsGet**](#apicarsidreviewsget) | **GET** /api/cars/{id}/reviews | |
 
 # **apiCarsCarIdImagesGet**
 > Array<CarImageDto> apiCarsCarIdImagesGet()
@@ -63,236 +57,6 @@ No authorization required
 |-------------|-------------|------------------|
 |**200** | OK |  -  |
 |**404** | Not Found |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **apiCarsCarIdImagesImageIdPost**
-> apiCarsCarIdImagesImageIdPost()
-
-
-### Example
-
-```typescript
-import {
-    CarApi,
-    Configuration
-} from './api';
-
-const configuration = new Configuration();
-const apiInstance = new CarApi(configuration);
-
-let carId: string; // (default to undefined)
-let imageId: string; // (default to undefined)
-
-const { status, data } = await apiInstance.apiCarsCarIdImagesImageIdPost(
-    carId,
-    imageId
-);
-```
-
-### Parameters
-
-|Name | Type | Description  | Notes|
-|------------- | ------------- | ------------- | -------------|
-| **carId** | [**string**] |  | defaults to undefined|
-| **imageId** | [**string**] |  | defaults to undefined|
-
-
-### Return type
-
-void (empty response body)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: text/plain, application/json, text/json
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-|**204** | No Content |  -  |
-|**404** | Not Found |  -  |
-|**401** | Unauthorized |  -  |
-|**403** | Forbidden |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **apiCarsCarIdImagesImageIdSetPrimaryPut**
-> CarImageDto apiCarsCarIdImagesImageIdSetPrimaryPut()
-
-
-### Example
-
-```typescript
-import {
-    CarApi,
-    Configuration
-} from './api';
-
-const configuration = new Configuration();
-const apiInstance = new CarApi(configuration);
-
-let carId: string; // (default to undefined)
-let imageId: string; // (default to undefined)
-
-const { status, data } = await apiInstance.apiCarsCarIdImagesImageIdSetPrimaryPut(
-    carId,
-    imageId
-);
-```
-
-### Parameters
-
-|Name | Type | Description  | Notes|
-|------------- | ------------- | ------------- | -------------|
-| **carId** | [**string**] |  | defaults to undefined|
-| **imageId** | [**string**] |  | defaults to undefined|
-
-
-### Return type
-
-**CarImageDto**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: text/plain, application/json, text/json
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-|**200** | OK |  -  |
-|**404** | Not Found |  -  |
-|**401** | Unauthorized |  -  |
-|**403** | Forbidden |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **apiCarsCarIdImagesPost**
-> CarImageDto apiCarsCarIdImagesPost()
-
-
-### Example
-
-```typescript
-import {
-    CarApi,
-    Configuration
-} from './api';
-
-const configuration = new Configuration();
-const apiInstance = new CarApi(configuration);
-
-let carId: string; // (default to undefined)
-let image: File; // (optional) (default to undefined)
-let imageUrl: string; // (optional) (default to undefined)
-let setAsPrimary: boolean; // (optional) (default to undefined)
-
-const { status, data } = await apiInstance.apiCarsCarIdImagesPost(
-    carId,
-    image,
-    imageUrl,
-    setAsPrimary
-);
-```
-
-### Parameters
-
-|Name | Type | Description  | Notes|
-|------------- | ------------- | ------------- | -------------|
-| **carId** | [**string**] |  | defaults to undefined|
-| **image** | [**File**] |  | (optional) defaults to undefined|
-| **imageUrl** | [**string**] |  | (optional) defaults to undefined|
-| **setAsPrimary** | [**boolean**] |  | (optional) defaults to undefined|
-
-
-### Return type
-
-**CarImageDto**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: application/x-www-form-urlencoded
- - **Accept**: text/plain, application/json, text/json
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-|**201** | Created |  -  |
-|**400** | Bad Request |  -  |
-|**401** | Unauthorized |  -  |
-|**403** | Forbidden |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **apiCarsCarIdImagesReorderPut**
-> apiCarsCarIdImagesReorderPut(carImageOrderItem)
-
-
-### Example
-
-```typescript
-import {
-    CarApi,
-    Configuration
-} from './api';
-
-const configuration = new Configuration();
-const apiInstance = new CarApi(configuration);
-
-let carId: string; // (default to undefined)
-let carImageOrderItem: Array<CarImageOrderItem>; //
-
-const { status, data } = await apiInstance.apiCarsCarIdImagesReorderPut(
-    carId,
-    carImageOrderItem
-);
-```
-
-### Parameters
-
-|Name | Type | Description  | Notes|
-|------------- | ------------- | ------------- | -------------|
-| **carImageOrderItem** | **Array<CarImageOrderItem>**|  | |
-| **carId** | [**string**] |  | defaults to undefined|
-
-
-### Return type
-
-void (empty response body)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: application/json, text/json, application/*+json
- - **Accept**: text/plain, application/json, text/json
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-|**200** | OK |  -  |
-|**400** | Bad Request |  -  |
-|**401** | Unauthorized |  -  |
-|**403** | Forbidden |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -382,56 +146,6 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **apiCarsIdDelete**
-> apiCarsIdDelete()
-
-
-### Example
-
-```typescript
-import {
-    CarApi,
-    Configuration
-} from './api';
-
-const configuration = new Configuration();
-const apiInstance = new CarApi(configuration);
-
-let id: string; // (default to undefined)
-
-const { status, data } = await apiInstance.apiCarsIdDelete(
-    id
-);
-```
-
-### Parameters
-
-|Name | Type | Description  | Notes|
-|------------- | ------------- | ------------- | -------------|
-| **id** | [**string**] |  | defaults to undefined|
-
-
-### Return type
-
-void (empty response body)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: Not defined
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-|**200** | OK |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
 # **apiCarsIdGet**
 > CarDetailDto apiCarsIdGet()
 
@@ -482,8 +196,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **apiCarsIdPut**
-> apiCarsIdPut(updateCarCommand)
+# **apiCarsIdReviewsGet**
+> Array<ReviewDto> apiCarsIdReviewsGet()
 
 
 ### Example
@@ -491,19 +205,18 @@ No authorization required
 ```typescript
 import {
     CarApi,
-    Configuration,
-    UpdateCarCommand
+    Configuration
 } from './api';
 
 const configuration = new Configuration();
 const apiInstance = new CarApi(configuration);
 
 let id: string; // (default to undefined)
-let updateCarCommand: UpdateCarCommand; //
+let carId: string; // (optional) (default to undefined)
 
-const { status, data } = await apiInstance.apiCarsIdPut(
+const { status, data } = await apiInstance.apiCarsIdReviewsGet(
     id,
-    updateCarCommand
+    carId
 );
 ```
 
@@ -511,13 +224,13 @@ const { status, data } = await apiInstance.apiCarsIdPut(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **updateCarCommand** | **UpdateCarCommand**|  | |
 | **id** | [**string**] |  | defaults to undefined|
+| **carId** | [**string**] |  | (optional) defaults to undefined|
 
 
 ### Return type
 
-void (empty response body)
+**Array<ReviewDto>**
 
 ### Authorization
 
@@ -525,59 +238,8 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, text/json, application/*+json
- - **Accept**: Not defined
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-|**200** | OK |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **apiCarsPost**
-> apiCarsPost(createCarCommand)
-
-
-### Example
-
-```typescript
-import {
-    CarApi,
-    Configuration,
-    CreateCarCommand
-} from './api';
-
-const configuration = new Configuration();
-const apiInstance = new CarApi(configuration);
-
-let createCarCommand: CreateCarCommand; //
-
-const { status, data } = await apiInstance.apiCarsPost(
-    createCarCommand
-);
-```
-
-### Parameters
-
-|Name | Type | Description  | Notes|
-|------------- | ------------- | ------------- | -------------|
-| **createCarCommand** | **CreateCarCommand**|  | |
-
-
-### Return type
-
-void (empty response body)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: application/json, text/json, application/*+json
- - **Accept**: Not defined
+ - **Content-Type**: Not defined
+ - **Accept**: text/plain, application/json, text/json
 
 
 ### HTTP response details

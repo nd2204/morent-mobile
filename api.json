@@ -63,6 +63,64 @@
             }
           }
         }
+      }
+    },
+    "/api/users/me": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/me/profile-image": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "responses": {
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
       },
       "post": {
         "tags": [
@@ -71,8 +129,7 @@
         "parameters": [
           {
             "name": "userId",
-            "in": "path",
-            "required": true,
+            "in": "query",
             "schema": {
               "type": "string",
               "format": "uuid"
@@ -184,8 +241,7 @@
         "parameters": [
           {
             "name": "userId",
-            "in": "path",
-            "required": true,
+            "in": "query",
             "schema": {
               "type": "string",
               "format": "uuid"
@@ -259,64 +315,6 @@
         }
       }
     },
-    "/api/users/me": {
-      "get": {
-        "tags": [
-          "User"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/UserDto"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UserDto"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UserDto"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/users/me/profile-image": {
-      "get": {
-        "tags": [
-          "User"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/UserProfileImageDto"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UserProfileImageDto"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UserProfileImageDto"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/api/users/me/rentals": {
       "get": {
         "tags": [
@@ -348,6 +346,53 @@
                   "items": {
                     "$ref": "#/components/schemas/RentalDto"
                   }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRentalRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRentalRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRentalRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RentalDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RentalDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RentalDto"
                 }
               }
             }
@@ -386,6 +431,116 @@
                   "items": {
                     "$ref": "#/components/schemas/UserCarsReviewDto"
                   }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LeaveReviewRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LeaveReviewRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/LeaveReviewRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReviewDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReviewDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReviewDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/me/reviews/{reviewId}": {
+      "put": {
+        "tags": [
+          "User"
+        ],
+        "parameters": [
+          {
+            "name": "reviewId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateReviewRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateReviewRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateReviewRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string",
+                  "format": "uuid"
                 }
               }
             }
@@ -528,36 +683,6 @@
             }
           }
         }
-      },
-      "post": {
-        "tags": [
-          "Car"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateCarCommand"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateCarCommand"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateCarCommand"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
       }
     },
     "/api/cars/{id}": {
@@ -598,53 +723,22 @@
             }
           }
         }
-      },
-      "put": {
+      }
+    },
+    "/api/cars/{id}/reviews": {
+      "get": {
         "tags": [
           "Car"
         ],
         "parameters": [
           {
-            "name": "id",
-            "in": "path",
-            "required": true,
+            "name": "carId",
+            "in": "query",
             "schema": {
               "type": "string",
               "format": "uuid"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateCarCommand"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateCarCommand"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateCarCommand"
-              }
             }
           },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "Car"
-        ],
-        "parameters": [
           {
             "name": "id",
             "in": "path",
@@ -657,7 +751,33 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ReviewDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ReviewDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ReviewDto"
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -729,10 +849,108 @@
             }
           }
         }
-      },
+      }
+    },
+    "/api/admin/car": {
       "post": {
         "tags": [
-          "Car"
+          "Admin"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCarCommand"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCarCommand"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCarCommand"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/admin/car/{id}": {
+      "put": {
+        "tags": [
+          "Admin"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCarCommand"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCarCommand"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCarCommand"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Admin"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/admin/car/{carId}/images": {
+      "post": {
+        "tags": [
+          "Admin"
         ],
         "parameters": [
           {
@@ -755,7 +973,8 @@
                     "$ref": "#/components/schemas/IFormFile"
                   },
                   "ImageUrl": {
-                    "type": "string"
+                    "type": "string",
+                    "format": "uuid"
                   },
                   "SetAsPrimary": {
                     "type": "boolean"
@@ -850,10 +1069,10 @@
         }
       }
     },
-    "/api/cars/{carId}/images/{imageId}": {
+    "/api/admin/car/{carId}/images/{imageId}": {
       "post": {
         "tags": [
-          "Car"
+          "Admin"
         ],
         "parameters": [
           {
@@ -942,10 +1161,10 @@
         }
       }
     },
-    "/api/cars/{carId}/images/{imageId}/set-primary": {
+    "/api/admin/car/{carId}/images/{imageId}/set-primary": {
       "put": {
         "tags": [
-          "Car"
+          "Admin"
         ],
         "parameters": [
           {
@@ -1051,10 +1270,10 @@
         }
       }
     },
-    "/api/cars/{carId}/images/reorder": {
+    "/api/admin/car/{carId}/images/reorder": {
       "put": {
         "tags": [
-          "Car"
+          "Admin"
         ],
         "parameters": [
           {
@@ -1194,17 +1413,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                  "$ref": "#/components/schemas/AuthResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                  "$ref": "#/components/schemas/AuthResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ValidationProblemDetails"
+                  "$ref": "#/components/schemas/AuthResponse"
                 }
               }
             }
@@ -1406,10 +1625,10 @@
         }
       }
     },
-    "/api/rentals": {
+    "/api/payments/methods": {
       "get": {
         "tags": [
-          "Rental"
+          "Payment"
         ],
         "responses": {
           "200": {
@@ -1419,7 +1638,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/RentalDto"
+                    "$ref": "#/components/schemas/PaymentMethodDto"
                   }
                 }
               },
@@ -1427,7 +1646,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/RentalDto"
+                    "$ref": "#/components/schemas/PaymentMethodDto"
                   }
                 }
               },
@@ -1435,7 +1654,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/RentalDto"
+                    "$ref": "#/components/schemas/PaymentMethodDto"
                   }
                 }
               }
@@ -1444,175 +1663,26 @@
         }
       }
     },
-    "/api/rentals/{id}": {
-      "get": {
-        "tags": [
-          "Rental"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/RentalDto"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RentalDto"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RentalDto"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/rentals/car/{id}": {
+    "/api/payments": {
       "post": {
         "tags": [
-          "Rental"
-        ],
-        "parameters": [
-          {
-            "name": "carId",
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
+          "Payment"
         ],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateRentalRequest"
+                "$ref": "#/components/schemas/PaymentRequest"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateRentalRequest"
+                "$ref": "#/components/schemas/PaymentRequest"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateRentalRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/reviews/car/{carId}": {
-      "get": {
-        "tags": [
-          "Review"
-        ],
-        "parameters": [
-          {
-            "name": "carId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ReviewDto"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ReviewDto"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ReviewDto"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "Review"
-        ],
-        "parameters": [
-          {
-            "name": "carId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/LeaveReviewRequest"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/LeaveReviewRequest"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/LeaveReviewRequest"
+                "$ref": "#/components/schemas/PaymentRequest"
               }
             }
           },
@@ -1624,80 +1694,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ReviewDto"
+                  "$ref": "#/components/schemas/PaymentResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ReviewDto"
+                  "$ref": "#/components/schemas/PaymentResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ReviewDto"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/reviews/{reviewId}": {
-      "put": {
-        "tags": [
-          "Review"
-        ],
-        "parameters": [
-          {
-            "name": "reviewId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateReviewRequest"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateReviewRequest"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateReviewRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "string",
-                  "format": "uuid"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "string",
-                  "format": "uuid"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "string",
-                  "format": "uuid"
+                  "$ref": "#/components/schemas/PaymentResponse"
                 }
               }
             }
@@ -2019,6 +2026,11 @@
         "format": "binary"
       },
       "LeaveReviewRequest": {
+        "required": [
+          "rentalId",
+          "rating",
+          "comment"
+        ],
         "type": "object",
         "properties": {
           "rentalId": {
@@ -2048,6 +2060,91 @@
             "type": "string"
           }
         }
+      },
+      "PaymentMethodDto": {
+        "required": [
+          "id",
+          "name",
+          "logoUrl",
+          "feePercent"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "logoUrl": {
+            "type": "string"
+          },
+          "feePercent": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "PaymentRequest": {
+        "required": [
+          "rentalId",
+          "method",
+          "paymentProviderId"
+        ],
+        "type": "object",
+        "properties": {
+          "rentalId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "method": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "returnUrl": {
+            "type": "string"
+          },
+          "metadata": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "paymentProviderId": {
+            "type": "string"
+          }
+        }
+      },
+      "PaymentResponse": {
+        "required": [
+          "status"
+        ],
+        "type": "object",
+        "properties": {
+          "transactionId": {
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/PaymentStatus"
+          },
+          "paymentUrl": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "providerData": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "PaymentStatus": {
+        "type": "integer"
       },
       "ProblemDetails": {
         "type": "object",
@@ -2392,13 +2489,13 @@
       "name": "Car"
     },
     {
+      "name": "Admin"
+    },
+    {
       "name": "Auth"
     },
     {
-      "name": "Rental"
-    },
-    {
-      "name": "Review"
+      "name": "Payment"
     }
   ]
 }
